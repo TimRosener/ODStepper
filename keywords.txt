@@ -1,0 +1,60 @@
+# Syntax Coloring Map for ODStepper
+
+# Datatypes (KEYWORD1)
+ODStepper	KEYWORD1
+ODStepperEngine	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+init	KEYWORD2
+stepperConnectToPin	KEYWORD2
+setDirectionPin	KEYWORD2
+setEnablePin	KEYWORD2
+setAutoEnable	KEYWORD2
+setDelayToEnable	KEYWORD2
+setDelayToDisable	KEYWORD2
+enableOutputs	KEYWORD2
+disableOutputs	KEYWORD2
+setSpeedInHz	KEYWORD2
+setSpeedInUs	KEYWORD2
+setAcceleration	KEYWORD2
+setLinearAcceleration	KEYWORD2
+setJumpStart	KEYWORD2
+move	KEYWORD2
+moveTo	KEYWORD2
+runForward	KEYWORD2
+runBackward	KEYWORD2
+forwardStep	KEYWORD2
+backwardStep	KEYWORD2
+stopMove	KEYWORD2
+forceStop	KEYWORD2
+forceStopAndNewPosition	KEYWORD2
+getCurrentPosition	KEYWORD2
+setCurrentPosition	KEYWORD2
+targetPos	KEYWORD2
+isRunning	KEYWORD2
+isStopping	KEYWORD2
+isRunningContinuously	KEYWORD2
+getSpeedInHz	KEYWORD2
+getSpeedInUs	KEYWORD2
+getCurrentSpeedInHz	KEYWORD2
+getCurrentSpeedInUs	KEYWORD2
+getAcceleration	KEYWORD2
+getCurrentAcceleration	KEYWORD2
+applySpeedAcceleration	KEYWORD2
+keepRunning	KEYWORD2
+rampState	KEYWORD2
+getStepPin	KEYWORD2
+getDirectionPin	KEYWORD2
+getEnablePin	KEYWORD2
+
+# Constants (LITERAL1)
+MOVE_OK	LITERAL1
+MOVE_ERR_NO_DIRECTION_PIN	LITERAL1
+MOVE_ERR_SPEED_IS_UNDEFINED	LITERAL1
+MOVE_ERR_ACCELERATION_IS_UNDEFINED	LITERAL1
+RAMP_STATE_IDLE	LITERAL1
+RAMP_STATE_COAST	LITERAL1
+RAMP_STATE_ACCELERATE	LITERAL1
+RAMP_STATE_DECELERATE	LITERAL1
+RAMP_DIRECTION_COUNT_UP	LITERAL1
+RAMP_DIRECTION_COUNT_DOWN	LITERAL1

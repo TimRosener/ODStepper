@@ -1,0 +1,12 @@
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+build/
+.build/
+.pio/
+.pioenvs/
+.piolibdeps/
+*.code-workspace
