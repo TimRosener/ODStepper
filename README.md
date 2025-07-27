@@ -48,7 +48,7 @@ lib_deps =
 
 ### Pull-up Resistors
 When using open-drain outputs, external pull-up resistors are required:
-- **Typical value**: 4.7kΩ
+- **Typical value**: 4.7kΩ for faster rise times, and using 5V logic on the driver I will use a 1.8K resostor on the postive pin in series to the 5V rail. the GPIO attaches to the - pin. The resisitor is large enough to limit the current when the GPIO goes to Gnd. 
 - **Connect between**: Each output pin and VCC of the stepper driver
 - **ESP32**: Required for proper operation
 - **Other platforms**: Required to simulate open-drain behavior
