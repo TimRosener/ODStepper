@@ -1,7 +1,7 @@
 {
   "name": "ODStepper",
   "version": "1.0.0",
-  "description": "Open-drain wrapper for FastAccelStepper library. Provides automatic open-drain pin configuration for ESP32 platforms.",
+  "description": "Open-drain wrapper for FastAccelStepper library. Provides automatic open-drain pin configuration for ESP32 platforms. NON-COMMERCIAL USE ONLY - Licensed under CC BY-NC 4.0. For commercial licensing, contact tim@rosener.com.",
   "keywords": [
     "stepper",
     "motor",
@@ -22,7 +22,7 @@
       "maintainer": true
     }
   ],
-  "license": "MIT",
+  "license": "CC-BY-NC-4.0",
   "homepage": "https://github.com/TimRosener/ODStepper",
   "dependencies": {
     "gin66/FastAccelStepper": "^0.30.0"
@@ -40,11 +40,6 @@
       "name": "SimpleTest",
       "base": "examples/SimpleTest",
       "files": ["SimpleTest.ino"]
-    },
-    {
-      "name": "ComprehensiveTest",
-      "base": "examples/ComprehensiveTest",
-      "files": ["ComprehensiveTest.ino"]
     }
   ],
   "export": {

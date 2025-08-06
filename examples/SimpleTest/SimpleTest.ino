@@ -1,5 +1,10 @@
 // ============================================================================
 // ODStepper Simple Test
+// Copyright (c) 2024 Rose&Swan
+// 
+// Licensed under CC BY-NC 4.0 (Attribution-NonCommercial)
+// For commercial use, contact: tim@rosener.com
+// 
 // Minimal test program for ODStepper with essential commands only
 // 
 // Hardware Configuration:

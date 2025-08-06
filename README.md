@@ -1,6 +1,10 @@
 # ODStepper Library
 
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
 A wrapper library for [FastAccelStepper](https://github.com/gin66/FastAccelStepper) that automatically configures pins for open-drain operation on ESP32 platforms.
+
+> **⚠️ NON-COMMERCIAL USE ONLY**: This library is licensed under Creative Commons BY-NC 4.0. For commercial licensing, please contact tim@rosener.com.
 
 ## Overview
 
@@ -227,9 +231,8 @@ ODStepper uses the complete FastAccelStepper API. For detailed API documentation
 
 ## Examples
 
-The library includes several examples:
-- **SimpleTest** - Basic motion control with serial commands
-- **ComprehensiveTest** - Full test suite for all features
+The library includes a comprehensive example:
+- **SimpleTest** - Interactive motion control with serial commands demonstrating all major features
 
 ## Why Use ODStepper?
 
@@ -266,7 +269,16 @@ Open-drain outputs prevent potential damage from voltage mismatches or accidenta
 
 ## License
 
-This library is released under the MIT License. See LICENSE file for details.
+This library is released under the Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
+
+- **Free for non-commercial use**
+- **Commercial use requires a license** - Contact tim@rosener.com
+- You must give appropriate credit
+- You may adapt and build upon this work
+
+See LICENSE file for full details.
+
+**Note**: FastAccelStepper (the underlying library) is MIT licensed. The non-commercial restriction applies only to the ODStepper wrapper code.
 
 ## Contributing
 

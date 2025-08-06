@@ -1,0 +1,24 @@
+# Git Commands for ODStepper
+# Copy and paste these commands one by one
+
+# 1. Navigate to the directory
+cd /Users/timrosener/Documents/Arduino/libraries/ODStepper
+
+# 2. Check current status
+git status
+
+# 3. Add all changes
+git add .
+
+# 4. Commit with license update message
+git commit -m "Update to non-commercial license (CC BY-NC 4.0)" -m "- Changed license from MIT to CC BY-NC 4.0" -m "- Added license headers to all source files" -m "- Updated documentation to reflect non-commercial use" -m "- Added commercial licensing contact information" -m "- Updated all metadata files (library.properties, library.json)" -m "- Created professional documentation structure"
+
+# 5. Push to GitHub
+git push origin main
+
+# 6. Create and push tag (optional)
+git tag -a v1.0.0 -m "Initial release - Open-drain wrapper for FastAccelStepper (CC BY-NC 4.0)"
+git push origin v1.0.0
+
+# 7. Verify the push
+git log --oneline -1
