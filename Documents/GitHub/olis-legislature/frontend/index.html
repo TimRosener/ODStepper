@@ -20,7 +20,16 @@
                 <div class="sidebar-section">
                     <h3 class="sidebar-section-title">Oregon Legislature</h3>
                     <ul class="sidebar-links">
-                        <li><a href="/" class="sidebar-link active">Session Overview</a></li>
+                        <li>
+                            <a href="/" class="sidebar-link active has-submenu" id="session-overview-main">Session Overview</a>
+                            <ul class="sidebar-submenu" id="session-submenu" style="display: none;">
+                                <li><a href="/bill-status" class="sidebar-sublink">Bill Status</a></li>
+                                <li><a href="/bill-types" class="sidebar-sublink">Bill Types</a></li>
+                                <li><a href="/house-committees" class="sidebar-sublink">House Committees</a></li>
+                                <li><a href="/senate-committees" class="sidebar-sublink">Senate Committees</a></li>
+                                <li><a href="/joint-committees" class="sidebar-sublink">Joint Committees</a></li>
+                            </ul>
+                        </li>
                         <li><a href="/system-health" class="sidebar-link">System Health</a></li>
                         <li><a href="/examples" class="sidebar-link">Design Library</a></li>
                     </ul>
@@ -59,13 +68,13 @@
                 <!-- Alert Container -->
                 <div id="alert-container" class="alert-container-hidden"></div>
 
-                <!-- Compact Session Dashboard -->
-                <div class="card section-spacing">
+                <!-- Main Session Dashboard -->
+                <div class="card section-spacing" id="main-dashboard">
                     <div class="card-header">
                         <div class="session-header">
                             <div>
                                 <h2 class="card-title" id="session-title">Legislative Session Dashboard</h2>
-                                <span id="session-name" class="text-secondary">Select a session to view bills</span>
+                                <span id="session-name" class="text-secondary">Select a session to view bill categories</span>
                             </div>
                             <div class="session-total">
                                 <span id="total-bills-count" class="total-count">-</span>
@@ -78,49 +87,10 @@
                         <div id="dashboard-loading" class="dashboard-empty">
                             <div class="text-center">
                                 <div class="text-tertiary">📊</div>
-                                <p class="text-secondary">Select a legislative session to view bill categories</p>
+                                <p class="text-secondary">Select a legislative session to view overview</p>
                             </div>
                         </div>
                         
-                        <!-- Bill Status Buttons -->
-                        <div id="status-buttons" class="button-grid" style="display: none;">
-                            <h3 class="grid-section-title">Bill Status</h3>
-                            <div class="grid-4" id="status-grid">
-                                <!-- Status buttons will be populated here -->
-                            </div>
-                        </div>
-                        
-                        <!-- Bill Type Buttons -->
-                        <div id="type-buttons" class="button-grid" style="display: none;">
-                            <h3 class="grid-section-title">Bill Types</h3>
-                            <div class="grid-4" id="type-grid">
-                                <!-- Type buttons will be populated here -->
-                            </div>
-                        </div>
-                        
-                        <!-- House Committee Buttons -->
-                        <div id="house-committee-buttons" class="button-grid" style="display: none;">
-                            <h3 class="grid-section-title">House Committees</h3>
-                            <div class="grid-4" id="house-committee-grid">
-                                <!-- House committee buttons will be populated here -->
-                            </div>
-                        </div>
-                        
-                        <!-- Senate Committee Buttons -->
-                        <div id="senate-committee-buttons" class="button-grid" style="display: none;">
-                            <h3 class="grid-section-title">Senate Committees</h3>
-                            <div class="grid-4" id="senate-committee-grid">
-                                <!-- Senate committee buttons will be populated here -->
-                            </div>
-                        </div>
-                        
-                        <!-- Joint Committee Buttons -->
-                        <div id="joint-committee-buttons" class="button-grid" style="display: none;">
-                            <h3 class="grid-section-title">Joint Committees</h3>
-                            <div class="grid-4" id="joint-committee-grid">
-                                <!-- Joint committee buttons will be populated here -->
-                            </div>
-                        </div>
                         
                         <!-- Hot Bills Section -->
                         <div id="hot-bills-section" class="button-grid" style="display: none;">
@@ -136,9 +106,87 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Category-Specific Dashboards (hidden by default) -->
+                
+                <!-- Bill Status Dashboard -->
+                <div class="card section-spacing category-dashboard" id="bill-status-dashboard" style="display: none;">
+                    <div class="card-header">
+                        <h2 class="card-title">Bill Status</h2>
+                        <p class="card-description">Bills organized by current status in the legislative process</p>
+                    </div>
+                    <div class="card-body">
+                        <div id="status-buttons" class="button-grid">
+                            <div class="grid-4" id="status-grid">
+                                <!-- Status buttons will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bill Types Dashboard -->
+                <div class="card section-spacing category-dashboard" id="bill-types-dashboard" style="display: none;">
+                    <div class="card-header">
+                        <h2 class="card-title">Bill Types</h2>
+                        <p class="card-description">Bills grouped by type (House Bills, Senate Bills, Resolutions, etc.)</p>
+                    </div>
+                    <div class="card-body">
+                        <div id="type-buttons" class="button-grid">
+                            <div class="grid-4" id="type-grid">
+                                <!-- Type buttons will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- House Committees Dashboard -->
+                <div class="card section-spacing category-dashboard" id="house-committees-dashboard" style="display: none;">
+                    <div class="card-header">
+                        <h2 class="card-title">House Committees</h2>
+                        <p class="card-description">Bills currently assigned to House committees</p>
+                    </div>
+                    <div class="card-body">
+                        <div id="house-committee-buttons" class="button-grid">
+                            <div class="grid-4" id="house-committee-grid">
+                                <!-- House committee buttons will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Senate Committees Dashboard -->
+                <div class="card section-spacing category-dashboard" id="senate-committees-dashboard" style="display: none;">
+                    <div class="card-header">
+                        <h2 class="card-title">Senate Committees</h2>
+                        <p class="card-description">Bills currently assigned to Senate committees</p>
+                    </div>
+                    <div class="card-body">
+                        <div id="senate-committee-buttons" class="button-grid">
+                            <div class="grid-4" id="senate-committee-grid">
+                                <!-- Senate committee buttons will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Joint Committees Dashboard -->
+                <div class="card section-spacing category-dashboard" id="joint-committees-dashboard" style="display: none;">
+                    <div class="card-header">
+                        <h2 class="card-title">Joint Committees</h2>
+                        <p class="card-description">Bills currently assigned to Joint committees</p>
+                    </div>
+                    <div class="card-body">
+                        <div id="joint-committee-buttons" class="button-grid">
+                            <div class="grid-4" id="joint-committee-grid">
+                                <!-- Joint committee buttons will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 
     <script src="/static/app.js"></script>
 </body>

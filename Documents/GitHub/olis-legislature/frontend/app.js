@@ -11,6 +11,17 @@ let sessions = [];
 let currentSession = null;
 let currentStats = null;
 let currentHotBills = null;
+let currentPage = '/'; // Track current page
+
+// Navigation State
+const pages = {
+    '/': 'main-dashboard',
+    '/bill-status': 'bill-status-dashboard', 
+    '/bill-types': 'bill-types-dashboard',
+    '/house-committees': 'house-committees-dashboard',
+    '/senate-committees': 'senate-committees-dashboard', 
+    '/joint-committees': 'joint-committees-dashboard'
+};
 
 // Enhanced Error Handling Functions
 class ApiError extends Error {
@@ -322,141 +333,21 @@ function groupBillTypes(billTypeCounts, totalBills) {
 }
 
 function displayStats(stats) {
+    // Store current stats for navigation
+    currentStats = stats;
+    
     // Update total bills count
     const totalCount = document.getElementById('total-bills-count');
     if (totalCount) {
         totalCount.textContent = stats.total_bills || 0;
     }
     
-    // Hide loading and show button grids
+    // Hide loading
     const dashboardLoading = document.getElementById('dashboard-loading');
-    const statusButtons = document.getElementById('status-buttons');
-    const typeButtons = document.getElementById('type-buttons');
-    const houseCommitteeButtons = document.getElementById('house-committee-buttons');
-    const senateCommitteeButtons = document.getElementById('senate-committee-buttons');
-    const jointCommitteeButtons = document.getElementById('joint-committee-buttons');
-    const hotBillsSection = document.getElementById('hot-bills-section');
-    
     if (dashboardLoading) dashboardLoading.style.display = 'none';
-    if (statusButtons) statusButtons.style.display = 'block';
-    if (typeButtons) typeButtons.style.display = 'block';
-    if (houseCommitteeButtons) houseCommitteeButtons.style.display = 'block';
-    if (senateCommitteeButtons) senateCommitteeButtons.style.display = 'block';
-    if (jointCommitteeButtons) jointCommitteeButtons.style.display = 'block';
-    if (hotBillsSection) hotBillsSection.style.display = 'block';
     
-    // Create status buttons (limit to top 8 statuses to keep compact)
-    if (stats.status_display) {
-        const statusGrid = document.getElementById('status-grid');
-        if (statusGrid) {
-            const sortedStatuses = Object.entries(stats.status_display)
-                .sort((a, b) => b[1].count - a[1].count)
-                .slice(0, 8); // Limit to 8 for 2 rows of 4
-            
-            const statusButtons = sortedStatuses.map(([status, info]) => `
-                <button class="bill-button" 
-                        data-filter-type="status" 
-                        data-filter-value="${status}"
-                        title="${info.description}">
-                    <span class="bill-count">${info.count}</span>
-                    <span class="bill-label">${info.display_name}</span>
-                    <span class="bill-percentage">${info.percentage}%</span>
-                </button>
-            `).join('');
-            
-            statusGrid.innerHTML = statusButtons;
-        }
-    }
-    
-    // Create bill type buttons (group similar types for compactness)
-    if (stats.bill_type_counts) {
-        const typeGrid = document.getElementById('type-grid');
-        if (typeGrid) {
-            // Group bill types for better UX
-            const groupedTypes = groupBillTypes(stats.bill_type_counts, stats.total_bills);
-            
-            const typeButtonsHtml = groupedTypes.map(group => `
-                <button class="bill-button" 
-                        data-filter-type="bill_type" 
-                        data-filter-value="${group.types.join(',')}"
-                        title="${group.description}">
-                    <span class="bill-count">${group.count}</span>
-                    <span class="bill-label">${group.name}</span>
-                    <span class="bill-percentage">${group.percentage}%</span>
-                </button>
-            `).join('');
-            
-            typeGrid.innerHTML = typeButtonsHtml;
-        }
-    }
-    
-    // Create specific committee buttons for each chamber
-    if (stats.specific_committees) {
-        
-        // House Committee Buttons
-        if (stats.specific_committees.house_committees && stats.specific_committees.house_committees.committees) {
-            const houseCommitteeGrid = document.getElementById('house-committee-grid');
-            if (houseCommitteeGrid) {
-                const houseCommittees = Object.entries(stats.specific_committees.house_committees.committees);
-                
-                const houseButtonsHtml = houseCommittees.map(([committee_code, info]) => `
-                    <button class="bill-button" 
-                            data-filter-type="committee" 
-                            data-filter-value="${committee_code}"
-                            title="${info.description}">
-                        <span class="bill-count">${info.count}</span>
-                        <span class="bill-label">${info.display_name}</span>
-                        <span class="bill-percentage">${info.percentage}% of committee bills</span>
-                    </button>
-                `).join('');
-                
-                houseCommitteeGrid.innerHTML = houseButtonsHtml;
-            }
-        }
-        
-        // Senate Committee Buttons  
-        if (stats.specific_committees.senate_committees && stats.specific_committees.senate_committees.committees) {
-            const senateCommitteeGrid = document.getElementById('senate-committee-grid');
-            if (senateCommitteeGrid) {
-                const senateCommittees = Object.entries(stats.specific_committees.senate_committees.committees);
-                
-                const senateButtonsHtml = senateCommittees.map(([committee_code, info]) => `
-                    <button class="bill-button" 
-                            data-filter-type="committee" 
-                            data-filter-value="${committee_code}"
-                            title="${info.description}">
-                        <span class="bill-count">${info.count}</span>
-                        <span class="bill-label">${info.display_name}</span>
-                        <span class="bill-percentage">${info.percentage}% of committee bills</span>
-                    </button>
-                `).join('');
-                
-                senateCommitteeGrid.innerHTML = senateButtonsHtml;
-            }
-        }
-        
-        // Joint Committee Buttons
-        if (stats.specific_committees.joint_committees && stats.specific_committees.joint_committees.committees) {
-            const jointCommitteeGrid = document.getElementById('joint-committee-grid');
-            if (jointCommitteeGrid) {
-                const jointCommittees = Object.entries(stats.specific_committees.joint_committees.committees);
-                
-                const jointButtonsHtml = jointCommittees.map(([committee_code, info]) => `
-                    <button class="bill-button" 
-                            data-filter-type="committee" 
-                            data-filter-value="${committee_code}"
-                            title="${info.description}">
-                        <span class="bill-count">${info.count}</span>
-                        <span class="bill-label">${info.display_name}</span>
-                        <span class="bill-percentage">${info.percentage}% of committee bills</span>
-                    </button>
-                `).join('');
-                
-                jointCommitteeGrid.innerHTML = jointButtonsHtml;
-            }
-        }
-    }
-    
+    // Navigate to current page to show appropriate content
+    navigateToPage(currentPage, false);
 }
 
 function displayHotBills(hotBillsData) {
@@ -472,28 +363,102 @@ function displayHotBills(hotBillsData) {
     // Show the hot bills section
     if (hotBillsSection) hotBillsSection.style.display = 'block';
     
-    // Generate hot bill buttons
+    // Generate hot bill buttons with expandable details
     if (hotBillsGrid) {
-        const hotBillButtons = hotBillsData.hot_bills.map(bill => {
+        const hotBillButtons = hotBillsData.hot_bills.map((bill, index) => {
             const heatClass = `heat-${bill.heat_level}`;
-            const testimonyText = bill.testimony_count === 1 ? 'testimony' : 'testimonies';
+            const billId = `hot-bill-${index}`;
+            
+            // Position breakdown data
+            const positions = bill.position_breakdown || {};
+            const inFavor = positions.in_favor || 0;
+            const against = positions.against || 0;
+            const neutral = positions.neutral || 0;
+            const unknown = positions.unknown || 0;
+            
+            // Submitter type data
+            const submitterTypes = bill.submitter_types || {};
+            const organizations = submitterTypes.organizations || 0;
+            const individuals = submitterTypes.individuals || 0;
             
             return `
-                <button class="bill-button hot-bill-button ${heatClass}" 
-                        data-filter-type="hot-bill" 
-                        data-filter-value="${bill.bill_id}"
-                        title="${bill.title}">
-                    <div class="hot-bill-header">
-                        <span class="heat-indicator">${bill.heat_emoji}</span>
-                        <span class="bill-count">${bill.testimony_count}</span>
+                <div class="hot-bill-container">
+                    <button class="bill-button hot-bill-button ${heatClass}" 
+                            data-filter-type="hot-bill" 
+                            data-filter-value="${bill.bill_id}"
+                            title="${bill.title}">
+                        <div class="hot-bill-header">
+                            <span class="heat-indicator">${bill.heat_emoji}</span>
+                        </div>
+                        <span class="bill-label">${bill.bill_id}</span>
+                        <div class="bill-title" title="${bill.title}">${bill.title}</div>
+                        
+                        <!-- Position Breakdown Summary -->
+                        <div class="position-summary">
+                            <span class="position-item in-favor" title="In Favor">👍 ${inFavor}</span>
+                            <span class="position-item against" title="Against">👎 ${against}</span>
+                            <span class="position-item neutral" title="Neutral">⚖️ ${neutral}</span>
+                            <span class="position-item unknown" title="Unknown">❓ ${unknown}</span>
+                        </div>
+                        
+                        <div class="hotness-score" title="Hotness Score: ${bill.hotness_score}">
+                            Score: ${bill.hotness_score}
+                        </div>
+                    </button>
+                    
+                    <!-- Expandable Details Toggle -->
+                    <button class="details-toggle" data-bill-id="${billId}" title="Show/Hide Details">
+                        <span class="toggle-icon">▼</span> Details
+                    </button>
+                    
+                    <!-- Expandable Details Panel -->
+                    <div class="bill-details" id="${billId}-details" style="display: none;">
+                        <div class="details-grid">
+                            <div class="detail-section">
+                                <h4>Submitter Types</h4>
+                                <ul class="submitter-details">
+                                    <li>🏢 Organizations: <strong>${organizations}</strong></li>
+                                    <li>👤 Individuals: <strong>${individuals}</strong></li>
+                                    <li>🏛️ Government: <strong>${submitterTypes.government || 0}</strong></li>
+                                    <li>💼 Business: <strong>${submitterTypes.business || 0}</strong></li>
+                                    <li>🤝 Nonprofit: <strong>${submitterTypes.nonprofit || 0}</strong></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h4>Timeline Analysis</h4>
+                                <ul class="timeline-details">
+                                    <li>📅 Last 30 days: <strong>${bill.timeline_breakdown?.recent_30_days || 0}</strong></li>
+                                    <li>📊 Last 90 days: <strong>${bill.timeline_breakdown?.recent_90_days || 0}</strong></li>
+                                    <li>🗓️ This year: <strong>${bill.timeline_breakdown?.this_year || 0}</strong></li>
+                                    <li>📜 Older: <strong>${bill.timeline_breakdown?.older || 0}</strong></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h4>🏙️ Top 10 Cities/Locations</h4>
+                                <ol class="top-submitters-list">
+                                    ${(bill.top_submitters || []).map((submitter, index) => 
+                                        `<li>${submitter.emoji} <strong>${submitter.name}</strong> (${submitter.count} ${submitter.count === 1 ? 'testimony' : 'testimonies'})</li>`
+                                    ).join('')}
+                                </ol>
+                                ${!bill.top_submitters || bill.top_submitters.length === 0 ? 
+                                    '<p class="no-data">No city/location data available</p>' : ''}
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h4>🏛️ Top 10 On Behalf Of</h4>
+                                <ol class="top-behalf-of-list">
+                                    ${(bill.top_behalf_of || []).map((behalf, index) => 
+                                        `<li>${behalf.emoji} <strong>${behalf.name}</strong> (${behalf.count} ${behalf.count === 1 ? 'testimony' : 'testimonies'})</li>`
+                                    ).join('')}
+                                </ol>
+                                ${!bill.top_behalf_of || bill.top_behalf_of.length === 0 ? 
+                                    '<p class="no-data">No organization representation data available</p>' : ''}
+                            </div>
+                        </div>
                     </div>
-                    <span class="bill-label">${bill.bill_id}</span>
-                    <span class="bill-percentage">${bill.testimony_count} ${testimonyText}</span>
-                    <div class="hotness-score" title="Hotness Score: ${bill.hotness_score}">
-                        Score: ${bill.hotness_score}
-                    </div>
-                </button>
-            `;
+                </div>`;
         }).join('');
         
         hotBillsGrid.innerHTML = hotBillButtons;
@@ -509,6 +474,239 @@ function hideHotBills() {
     const hotBillsSection = document.getElementById('hot-bills-section');
     if (hotBillsSection) {
         hotBillsSection.style.display = 'none';
+    }
+}
+
+function toggleBillDetails(billId) {
+    const detailsPanel = document.getElementById(billId + '-details');
+    const toggleButton = document.querySelector(`button.details-toggle[data-bill-id="${billId}"]`);
+    const toggleIcon = toggleButton?.querySelector('.toggle-icon');
+    
+    if (detailsPanel) {
+        const isVisible = detailsPanel.style.display !== 'none';
+        
+        if (isVisible) {
+            // Hide details
+            detailsPanel.style.display = 'none';
+            if (toggleIcon) toggleIcon.textContent = '▼';
+            if (toggleButton) toggleButton.title = 'Show Details';
+        } else {
+            // Show details
+            detailsPanel.style.display = 'block';
+            if (toggleIcon) toggleIcon.textContent = '▲';
+            if (toggleButton) toggleButton.title = 'Hide Details';
+        }
+    }
+}
+
+// Navigation Functions
+function navigateToPage(path, updateHistory = true) {
+    // Update current page
+    currentPage = path;
+    
+    // Hide all dashboards
+    const allDashboards = document.querySelectorAll('.card');
+    allDashboards.forEach(dashboard => {
+        if (dashboard.id !== 'main-dashboard' && dashboard.classList.contains('category-dashboard')) {
+            dashboard.style.display = 'none';
+        }
+    });
+    
+    // Show main dashboard by default
+    const mainDashboard = document.getElementById('main-dashboard');
+    if (mainDashboard) {
+        mainDashboard.style.display = path === '/' ? 'block' : 'none';
+    }
+    
+    // Show specific category dashboard if needed
+    const targetDashboardId = pages[path];
+    if (targetDashboardId && targetDashboardId !== 'main-dashboard') {
+        const targetDashboard = document.getElementById(targetDashboardId);
+        if (targetDashboard) {
+            targetDashboard.style.display = 'block';
+        }
+    }
+    
+    // Update sidebar navigation
+    updateSidebarNavigation(path);
+    
+    // Show/hide submenu based on page
+    const submenu = document.getElementById('session-submenu');
+    const sessionOverviewMain = document.getElementById('session-overview-main');
+    
+    if (path === '/' || Object.keys(pages).includes(path)) {
+        // Show submenu for session-related pages
+        if (submenu) submenu.style.display = 'block';
+        if (sessionOverviewMain) sessionOverviewMain.classList.add('expanded');
+    } else {
+        // Hide submenu for external pages
+        if (submenu) submenu.style.display = 'none';
+        if (sessionOverviewMain) sessionOverviewMain.classList.remove('expanded');
+    }
+    
+    // Update browser history
+    if (updateHistory && path !== window.location.pathname) {
+        history.pushState({ path }, '', path);
+    }
+    
+    // Show appropriate content based on current session
+    if (currentSession && currentStats) {
+        if (path === '/') {
+            showSessionOverview();
+        } else {
+            showCategoryContent(path);
+        }
+    }
+}
+
+function updateSidebarNavigation(currentPath) {
+    // Update main links
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // Update sublinks
+    document.querySelectorAll('.sidebar-sublink').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    if (currentPath === '/') {
+        const sessionLink = document.getElementById('session-overview-main');
+        if (sessionLink) sessionLink.classList.add('active');
+    } else {
+        // First, try to find and activate the appropriate sublink (bill-status, bill-types, etc.)
+        const targetSublink = document.querySelector(`a[href="${currentPath}"].sidebar-sublink`);
+        if (targetSublink) {
+            targetSublink.classList.add('active');
+            // Keep session overview main link active too
+            const sessionLink = document.getElementById('session-overview-main');
+            if (sessionLink) sessionLink.classList.add('active');
+        } else {
+            // If no sublink found, try to find main sidebar link (system-health, examples)
+            const targetMainLink = document.querySelector(`a[href="${currentPath}"].sidebar-link`);
+            if (targetMainLink) {
+                targetMainLink.classList.add('active');
+            }
+        }
+    }
+}
+
+function showSessionOverview() {
+    // Show hot bills on main overview
+    if (currentHotBills) {
+        displayHotBills(currentHotBills);
+    }
+}
+
+function showCategoryContent(path) {
+    if (!currentStats) return;
+    
+    // Hide hot bills on category pages  
+    hideHotBills();
+    
+    // Show specific category content
+    switch (path) {
+        case '/bill-status':
+            if (currentStats.status_display) {
+                populateStatusButtons(currentStats.status_display);
+                showElement('status-buttons');
+            }
+            break;
+        case '/bill-types':
+            if (currentStats.bill_type_counts) {
+                populateTypeButtons(currentStats.bill_type_counts, currentStats.total_bills);
+                showElement('type-buttons');
+            }
+            break;
+        case '/house-committees':
+            if (currentStats.specific_committees?.house_committees) {
+                populateCommitteeButtons('house', currentStats.specific_committees.house_committees);
+                showElement('house-committee-buttons');
+            }
+            break;
+        case '/senate-committees':
+            if (currentStats.specific_committees?.senate_committees) {
+                populateCommitteeButtons('senate', currentStats.specific_committees.senate_committees);
+                showElement('senate-committee-buttons');
+            }
+            break;
+        case '/joint-committees':
+            if (currentStats.specific_committees?.joint_committees) {
+                populateCommitteeButtons('joint', currentStats.specific_committees.joint_committees);
+                showElement('joint-committee-buttons');
+            }
+            break;
+    }
+}
+
+function showElement(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.style.display = 'block';
+    }
+}
+
+// Helper functions for populating category content
+function populateStatusButtons(statusDisplay) {
+    const statusGrid = document.getElementById('status-grid');
+    if (statusGrid) {
+        const sortedStatuses = Object.entries(statusDisplay)
+            .sort((a, b) => b[1].count - a[1].count);
+        
+        const statusButtons = sortedStatuses.map(([status, info]) => `
+            <button class="bill-button" 
+                    data-filter-type="status" 
+                    data-filter-value="${status}"
+                    title="${info.description}">
+                <span class="bill-count">${info.count}</span>
+                <span class="bill-label">${info.display_name}</span>
+                <span class="bill-percentage">${info.percentage}%</span>
+            </button>
+        `).join('');
+        
+        statusGrid.innerHTML = statusButtons;
+    }
+}
+
+function populateTypeButtons(billTypeCounts, totalBills) {
+    const typeGrid = document.getElementById('type-grid');
+    if (typeGrid) {
+        const groupedTypes = groupBillTypes(billTypeCounts, totalBills);
+        
+        const typeButtonsHtml = groupedTypes.map(group => `
+            <button class="bill-button" 
+                    data-filter-type="bill_type" 
+                    data-filter-value="${group.types.join(',')}"
+                    title="${group.description}">
+                <span class="bill-count">${group.count}</span>
+                <span class="bill-label">${group.name}</span>
+                <span class="bill-percentage">${group.percentage}%</span>
+            </button>
+        `).join('');
+        
+        typeGrid.innerHTML = typeButtonsHtml;
+    }
+}
+
+function populateCommitteeButtons(chamber, committeeData) {
+    const gridId = `${chamber}-committee-grid`;
+    const grid = document.getElementById(gridId);
+    
+    if (grid && committeeData.committees) {
+        const committees = Object.entries(committeeData.committees);
+        
+        const committeeButtons = committees.map(([code, info]) => `
+            <button class="bill-button" 
+                    data-filter-type="committee" 
+                    data-filter-value="${code}"
+                    title="${info.description || code}">
+                <span class="bill-count">${info.count}</span>
+                <span class="bill-label">${info.display_name || code}</span>
+                <span class="bill-percentage">${(info.count / committeeData.total * 100).toFixed(1)}%</span>
+            </button>
+        `).join('');
+        
+        grid.innerHTML = committeeButtons;
     }
 }
 
@@ -575,8 +773,47 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Bill button click handlers (set up once on page load)
+    // Navigation click handlers
     document.addEventListener('click', function(e) {
+        // Handle sidebar navigation links
+        if (e.target.matches('.sidebar-link, .sidebar-sublink, .overview-link')) {
+            const href = e.target.getAttribute('href');
+            if (href) {
+                // Check if this is an external page (not part of our SPA routing)
+                const externalPages = ['/system-health', '/examples'];
+                
+                if (externalPages.includes(href)) {
+                    // Allow normal browser navigation for external pages
+                    // Don't prevent default - let the browser handle it
+                    return;
+                } else {
+                    // Handle internal SPA navigation
+                    e.preventDefault();
+                    navigateToPage(href);
+                }
+            }
+        }
+        
+        // Handle Session Overview main link toggle
+        if (e.target.id === 'session-overview-main') {
+            e.preventDefault();
+            const submenu = document.getElementById('session-submenu');
+            const mainLink = e.target;
+            
+            if (submenu.style.display === 'none' || submenu.style.display === '') {
+                submenu.style.display = 'block';
+                mainLink.classList.add('expanded');
+            } else {
+                submenu.style.display = 'none';
+                mainLink.classList.remove('expanded');
+            }
+            
+            // Navigate to main overview page
+            navigateToPage('/');
+            return;
+        }
+        
+        // Handle bill button clicks
         if (e.target.closest('.bill-button')) {
             e.preventDefault();
             const button = e.target.closest('.bill-button');
@@ -596,8 +833,47 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 button.style.transform = '';
             }, 150);
+            
+            return;
+        }
+        
+        // Handle details toggle button clicks
+        if (e.target.matches('.details-toggle, .details-toggle *')) {
+            e.preventDefault();
+            const button = e.target.closest('.details-toggle');
+            if (button) {
+                const billId = button.getAttribute('data-bill-id');
+                if (billId) {
+                    toggleBillDetails(billId);
+                }
+            }
+            return;
+        }
+        
+        // Handle hot bill button clicks
+        if (e.target.closest('.hot-bill-button')) {
+            e.preventDefault();
+            const button = e.target.closest('.hot-bill-button');
+            const billId = button.getAttribute('data-bill-id');
+            
+            // Placeholder for navigation - will be implemented later
+            console.log(`🔥 Navigate to hot bill: ${billId}`);
+            
+            return;
         }
     });
+    
+    // Handle browser back/forward
+    window.addEventListener('popstate', function(e) {
+        const path = e.state?.path || window.location.pathname;
+        navigateToPage(path, false);
+    });
+    
+    
+    // Initialize navigation on page load
+    const initialPath = window.location.pathname;
+    currentPage = initialPath;
+    navigateToPage(initialPath, false);
     
     // Load initial data
     loadSessions();
