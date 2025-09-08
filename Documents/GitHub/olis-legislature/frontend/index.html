@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLIS - Oregon Legislative Information System</title>
+    
+    <!-- Import the shared design system -->
+    <link rel="stylesheet" href="/shared/design-system.css">
+    <link rel="stylesheet" href="/shared/components.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <a href="/" class="sidebar-brand-link">OLIS</a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Oregon Legislature</h3>
+                    <ul class="sidebar-links">
+                        <li><a href="/" class="sidebar-link active">Session Overview</a></li>
+                        <li><a href="/system-health" class="sidebar-link">System Health</a></li>
+                        <li><a href="/examples" class="sidebar-link">Design Library</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        
+        <div class="main-content">
+            <div class="main-header">
+                <h1>Oregon Legislative Information System</h1>
+                <p>Track legislative sessions, bills, and monitor progress through the Oregon Legislature</p>
+            </div>
+            
+            <div class="main-body">
+                <!-- Session Selection -->
+                <div class="card section-spacing">
+                    <div class="card-header">
+                        <h2 class="card-title">Legislative Session</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="flex items-center gap-4">
+                            <div class="form-group">
+                                <label for="session-selector" class="form-label">Select Session:</label>
+                                <select id="session-selector" class="form-select">
+                                    <option value="">Loading sessions...</option>
+                                </select>
+                            </div>
+                            <div class="status-indicator">
+                                <span id="connection-status" class="status-dot pending"></span>
+                                <span id="connection-text" class="text-secondary">Connecting to OLIS...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alert Container -->
+                <div id="alert-container" class="alert-container-hidden"></div>
+
+                <!-- Compact Session Dashboard -->
+                <div class="card section-spacing">
+                    <div class="card-header">
+                        <div class="session-header">
+                            <div>
+                                <h2 class="card-title" id="session-title">Legislative Session Dashboard</h2>
+                                <span id="session-name" class="text-secondary">Select a session to view bills</span>
+                            </div>
+                            <div class="session-total">
+                                <span id="total-bills-count" class="total-count">-</span>
+                                <span class="total-label">Total Bills</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Loading/Empty State -->
+                        <div id="dashboard-loading" class="dashboard-empty">
+                            <div class="text-center">
+                                <div class="text-tertiary">📊</div>
+                                <p class="text-secondary">Select a legislative session to view bill categories</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Bill Status Buttons -->
+                        <div id="status-buttons" class="button-grid" style="display: none;">
+                            <h3 class="grid-section-title">Bill Status</h3>
+                            <div class="grid-4" id="status-grid">
+                                <!-- Status buttons will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Bill Type Buttons -->
+                        <div id="type-buttons" class="button-grid" style="display: none;">
+                            <h3 class="grid-section-title">Bill Types</h3>
+                            <div class="grid-4" id="type-grid">
+                                <!-- Type buttons will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- House Committee Buttons -->
+                        <div id="house-committee-buttons" class="button-grid" style="display: none;">
+                            <h3 class="grid-section-title">House Committees</h3>
+                            <div class="grid-4" id="house-committee-grid">
+                                <!-- House committee buttons will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Senate Committee Buttons -->
+                        <div id="senate-committee-buttons" class="button-grid" style="display: none;">
+                            <h3 class="grid-section-title">Senate Committees</h3>
+                            <div class="grid-4" id="senate-committee-grid">
+                                <!-- Senate committee buttons will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Joint Committee Buttons -->
+                        <div id="joint-committee-buttons" class="button-grid" style="display: none;">
+                            <h3 class="grid-section-title">Joint Committees</h3>
+                            <div class="grid-4" id="joint-committee-grid">
+                                <!-- Joint committee buttons will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Hot Bills Section -->
+                        <div id="hot-bills-section" class="button-grid" style="display: none;">
+                            <h3 class="grid-section-title">🔥 Hot Bills (Most Testimony)</h3>
+                            <div class="grid-4" id="hot-bills-grid">
+                                <!-- Hot bill buttons will be populated here -->
+                            </div>
+                            <div class="hot-bills-actions" style="display: none;">
+                                <button id="view-all-hot-bills" class="view-all-button">
+                                    View All Hot Bills →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

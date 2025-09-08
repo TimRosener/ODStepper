@@ -1,0 +1,483 @@
+/* 
+ * Page-specific styles for the dashboard
+ * Only put styles here that are unique to this page
+ * Use design-system.css and components.css for everything else
+ */
+
+/* Dashboard-specific layout adjustments */
+.activity-item {
+    transition: background-color var(--transition);
+}
+
+.activity-item:hover {
+    background-color: var(--bg-secondary);
+}
+
+/* Metric animations */
+#metric-processed,
+#metric-pending,
+#metric-errors {
+    transition: color var(--transition-fast);
+}
+
+/* Dashboard grid responsive adjustments */
+@media (max-width: 768px) {
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Custom loading state for dashboard */
+.dashboard-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.dashboard-loading .spinner {
+    width: 40px;
+    height: 40px;
+}
+
+/* Task-specific styles */
+.task-item {
+    transition: all var(--transition-fast);
+}
+
+.task-item:hover {
+    box-shadow: var(--shadow-sm);
+    border-color: var(--primary);
+}
+
+.form-group {
+    margin-bottom: var(--space-4);
+}
+
+/* Fix for examples page layout consistency */
+.main-body section {
+    margin-bottom: var(--space-6);
+}
+
+.main-body section:last-child {
+    margin-bottom: 0;
+}
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+    padding: var(--space-8);
+}
+
+/* Card hierarchy variants using existing design system variables */
+.card-primary {
+    border-color: var(--primary-light);
+    background-color: var(--primary-lighter);
+    box-shadow: var(--shadow-md);
+}
+
+.card-minimal {
+    border-color: var(--border-light);
+    background-color: var(--bg-tertiary);
+    padding: var(--space-4);
+}
+
+/* OLIS-specific styles */
+.stat-item {
+    text-align: center;
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    transition: all var(--transition);
+}
+
+.stat-item:hover {
+    background-color: var(--bg-hover);
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-number {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--primary);
+    margin-bottom: var(--space-2);
+}
+
+.stat-label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-percentage {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    margin-top: var(--space-1);
+}
+
+/* Status-specific color coding for bill statuses */
+.stat-item.primary {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+}
+
+.stat-item.primary .stat-number {
+    color: var(--primary);
+}
+
+.stat-item.success {
+    border-color: var(--success);
+    background-color: var(--success-light);
+}
+
+.stat-item.success .stat-number {
+    color: var(--success);
+}
+
+.stat-item.warning {
+    border-color: var(--warning);
+    background-color: var(--warning-light);
+}
+
+.stat-item.warning .stat-number {
+    color: var(--warning);
+}
+
+.stat-item.danger {
+    border-color: var(--danger);
+    background-color: var(--danger-light);
+}
+
+.stat-item.danger .stat-number {
+    color: var(--danger);
+}
+
+.stat-item.info {
+    border-color: var(--info);
+    background-color: var(--info-light);
+}
+
+.stat-item.info .stat-number {
+    color: var(--info);
+}
+
+.stat-item.secondary {
+    border-color: var(--border);
+    background-color: var(--bg-tertiary);
+}
+
+.stat-item.secondary .stat-number {
+    color: var(--text-secondary);
+}
+
+/* Enhanced primary stat item for total bills */
+.stat-item.total {
+    border-color: var(--primary);
+    background-color: var(--primary-lighter);
+    box-shadow: var(--shadow-md);
+    border-width: 2px;
+}
+
+.stat-item.total .stat-number {
+    color: var(--primary);
+    font-size: var(--text-3xl);
+}
+
+/* Compact Dashboard Styling */
+.session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.session-total {
+    text-align: center;
+    padding: var(--space-3);
+    background-color: var(--primary-light);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--primary);
+    min-width: 120px;
+}
+
+.total-count {
+    display: block;
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--primary);
+    line-height: 1;
+}
+
+.total-label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dashboard-empty {
+    padding: var(--space-8);
+    text-align: center;
+}
+
+.button-grid {
+    margin-bottom: var(--space-6);
+}
+
+.button-grid:last-child {
+    margin-bottom: 0;
+}
+
+.grid-section-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+}
+
+/* Bill Button Styling */
+.bill-button {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition);
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.bill-button:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.bill-button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
+}
+
+.bill-count {
+    display: block;
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--primary);
+    margin-bottom: var(--space-1);
+    line-height: 1;
+}
+
+.bill-label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    font-weight: var(--font-medium);
+    line-height: 1.2;
+    margin-bottom: var(--space-1);
+}
+
+.bill-percentage {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    font-weight: var(--font-normal);
+}
+
+/* Hot Bills Specific Styling */
+.hot-bill-button {
+    position: relative;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.hot-bill-button:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.hot-bill-button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
+}
+
+/* Heat level styling */
+.heat-blazing {
+    border-color: #ff4444;
+    background-color: rgba(255, 68, 68, 0.05);
+}
+
+.heat-blazing:hover {
+    background-color: rgba(255, 68, 68, 0.15);
+    border-color: #ff2222;
+}
+
+.heat-hot {
+    border-color: #ff8800;
+    background-color: rgba(255, 136, 0, 0.05);
+}
+
+.heat-hot:hover {
+    background-color: rgba(255, 136, 0, 0.15);
+    border-color: #ff6600;
+}
+
+.heat-warm {
+    border-color: #ffaa00;
+    background-color: rgba(255, 170, 0, 0.05);
+}
+
+.heat-warm:hover {
+    background-color: rgba(255, 170, 0, 0.15);
+    border-color: #ff9900;
+}
+
+.heat-mild {
+    border-color: #88cc44;
+    background-color: rgba(136, 204, 68, 0.05);
+}
+
+.heat-mild:hover {
+    background-color: rgba(136, 204, 68, 0.15);
+    border-color: #66aa22;
+}
+
+.hot-bill-heat {
+    font-size: var(--text-xl);
+    line-height: 1;
+}
+
+.hot-bill-count {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+}
+
+.hot-bill-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-secondary);
+    line-height: var(--line-height-tight);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.hot-bill-score {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    font-weight: var(--font-medium);
+}
+
+.view-all-button {
+    background-color: var(--primary);
+    color: var(--primary-contrast);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    cursor: pointer;
+    transition: all var(--transition);
+    margin-top: var(--space-4);
+    align-self: flex-start;
+}
+
+.view-all-button:hover {
+    background-color: var(--primary-dark);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.view-all-button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
+}
+
+.hot-bills-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-4);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .grid-4 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .session-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+    }
+    
+    .session-total {
+        align-self: flex-end;
+        min-width: 100px;
+    }
+    
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .bill-button {
+        padding: var(--space-3);
+    }
+    
+    .bill-count {
+        font-size: var(--text-lg);
+    }
+    
+    .hot-bill-button {
+        padding: var(--space-3);
+    }
+    
+    .hot-bill-count {
+        font-size: var(--text-lg);
+    }
+    
+    .hot-bill-label {
+        font-size: var(--text-xs);
+        -webkit-line-clamp: 2;
+    }
+    
+    .view-all-button {
+        padding: var(--space-2) var(--space-4);
+        font-size: var(--text-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
