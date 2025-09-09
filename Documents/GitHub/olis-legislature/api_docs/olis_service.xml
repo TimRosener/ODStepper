@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="http://www.w3.org/2007/app" xmlns:atom="http://www.w3.org/2005/Atom" xml:base="https://api.oregonlegislature.gov/odata/ODataService.svc/">
+  <workspace>
+    <atom:title>Default</atom:title>
+    <collection href="LegislativeSessions">
+      <atom:title>LegislativeSessions</atom:title>
+    </collection>
+    <collection href="Measures">
+      <atom:title>Measures</atom:title>
+    </collection>
+    <collection href="Committees">
+      <atom:title>Committees</atom:title>
+    </collection>
+    <collection href="CommitteeMeetings">
+      <atom:title>CommitteeMeetings</atom:title>
+    </collection>
+    <collection href="CommitteeAgendaItems">
+      <atom:title>CommitteeAgendaItems</atom:title>
+    </collection>
+    <collection href="CommitteeStaffMembers">
+      <atom:title>CommitteeStaffMembers</atom:title>
+    </collection>
+    <collection href="CommitteeMeetingDocuments">
+      <atom:title>CommitteeMeetingDocuments</atom:title>
+    </collection>
+    <collection href="ConveneTimes">
+      <atom:title>ConveneTimes</atom:title>
+    </collection>
+    <collection href="FloorSessionAgendaItems">
+      <atom:title>FloorSessionAgendaItems</atom:title>
+    </collection>
+    <collection href="Legislators">
+      <atom:title>Legislators</atom:title>
+    </collection>
+    <collection href="MeasureAnalysisDocuments">
+      <atom:title>MeasureAnalysisDocuments</atom:title>
+    </collection>
+    <collection href="MeasureDocuments">
+      <atom:title>MeasureDocuments</atom:title>
+    </collection>
+    <collection href="MeasureHistoryActions">
+      <atom:title>MeasureHistoryActions</atom:title>
+    </collection>
+    <collection href="MeasureSponsors">
+      <atom:title>MeasureSponsors</atom:title>
+    </collection>
+    <collection href="CommitteeProposedAmendments">
+      <atom:title>CommitteeProposedAmendments</atom:title>
+    </collection>
+    <collection href="FloorLetters">
+      <atom:title>FloorLetters</atom:title>
+    </collection>
+    <collection href="CommitteeVotes">
+      <atom:title>CommitteeVotes</atom:title>
+    </collection>
+    <collection href="MeasureVotes">
+      <atom:title>MeasureVotes</atom:title>
+    </collection>
+    <collection href="CommitteeMembers">
+      <atom:title>CommitteeMembers</atom:title>
+    </collection>
+    <collection href="CommitteePublicTestimonies">
+      <atom:title>CommitteePublicTestimonies</atom:title>
+    </collection>
+  </workspace>
+</service>

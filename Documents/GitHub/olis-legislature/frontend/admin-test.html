@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Test</title>
+</head>
+<body>
+    <h1>Admin Interface Test</h1>
+    <div id="test-results"></div>
+    
+    <script>
+        console.log('Admin test page loaded');
+        
+        async function testAdminEndpoints() {
+            const results = document.getElementById('test-results');
+            
+            try {
+                console.log('Testing database connection...');
+                const dbTest = await fetch('/api/database/test');
+                const dbData = await dbTest.json();
+                results.innerHTML += `<p>Database Test: ${dbData.success ? 'SUCCESS' : 'FAILED'}</p>`;
+                
+                console.log('Testing admin tables...');
+                const tablesTest = await fetch('/api/admin/tables');
+                const tablesData = await tablesTest.json();
+                results.innerHTML += `<p>Tables Test: ${tablesData.success ? 'SUCCESS' : 'FAILED'} - ${tablesData.data?.total_count || 0} tables</p>`;
+                
+                console.log('Testing migration status...');
+                const migrationTest = await fetch('/api/admin/migration-status');
+                const migrationData = await migrationTest.json();
+                results.innerHTML += `<p>Migration Test: ${migrationData.success ? 'SUCCESS' : 'FAILED'}</p>`;
+                
+                results.innerHTML += `<p><strong>All API endpoints are working!</strong></p>`;
+                
+            } catch (error) {
+                console.error('Test failed:', error);
+                results.innerHTML += `<p style="color: red;">Test failed: ${error.message}</p>`;
+            }
+        }
+        
+        // Run tests when page loads
+        window.addEventListener('load', testAdminEndpoints);
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+env/
+ENV/
+
+# Environment
+.env
+.env.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Service management files
+.service.pid
+.supervisor.pid
+.stop-requested
+
+# Keep old backup
+start.sh.backup
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node (if adding any JS tooling)
+node_modules/
+npm-debug.log
+yarn-error.log

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Demo - Product Starter Template</title>
+    
+    <!-- Import the shared design system -->
+    <link rel="stylesheet" href="/shared/design-system.css">
+    <link rel="stylesheet" href="/shared/components.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <a href="/" class="sidebar-brand-link">[Product Name]</a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Starter Template</h3>
+                    <ul class="sidebar-links">
+                        <li><a href="/" class="sidebar-link">Home</a></li>
+                        <li><a href="/system-health" class="sidebar-link">System Health</a></li>
+                        <li><a href="/demo" class="sidebar-link active">Template Demo</a></li>
+                        <li><a href="/examples" class="sidebar-link">Design Library</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        
+        <div class="main-content">
+            <div class="main-header">
+                <h1>Task Management Demo</h1>
+                <p>Design system showcase - demonstrating template components in a working application</p>
+            </div>
+            
+            <div class="main-body">
+                <div class="card section-spacing">
+                    <div class="card-header">
+                        <h2 class="card-title">Demo Overview</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="status-indicator status-spacing">
+                            <span class="badge badge-success">● Running</span>
+                            <span class="badge badge-info">Design Showcase</span>
+                            <span class="text-secondary">Demonstrating components and patterns</span>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <p class="stat-label">Total Tasks</p>
+                                <p class="stat-value" id="metric-total">0</p>
+                            </div>
+                            <div class="stat-item">
+                                <p class="stat-label">Completed</p>
+                                <p class="stat-value" id="metric-completed">0</p>
+                            </div>
+                            <div class="stat-item">
+                                <p class="stat-label">Pending</p>
+                                <p class="stat-value" id="metric-pending">0</p>
+                            </div>
+                            <div class="stat-item">
+                                <p class="stat-label">Last Update</p>
+                                <p class="stat-value" id="last-check">--:--:--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alert Container -->
+                <div id="alert-container" class="alert-container-hidden"></div>
+
+                <!-- Task Creation Form -->
+                <div class="card section-spacing">
+                    <div class="card-header">
+                        <h2 class="card-title">Create Task</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="task-form">
+                            <div class="form-group">
+                                <label for="task-title" class="form-label">Title</label>
+                                <input type="text" id="task-title" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="task-description" class="form-label">Description</label>
+                                <textarea id="task-description" class="form-textarea" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="task-priority" class="form-label">How urgent?</label>
+                                <select id="task-priority" class="form-select">
+                                    <option value="low">Not urgent</option>
+                                    <option value="medium" selected>Normal</option>
+                                    <option value="high">Urgent</option>
+                                </select>
+                            </div>
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-primary">Create Task</button>
+                                <button type="button" class="btn btn-secondary" onclick="performAction()">Run Sample Action</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Tasks List -->
+                <div class="card section-spacing">
+                    <div class="card-header">
+                        <h2 class="card-title">Tasks</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="tasks-list">
+                            <p class="text-secondary">Loading tasks...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Activity</h2>
+                        <button class="btn btn-ghost btn-sm" onclick="viewActivity()">Refresh</button>
+                    </div>
+                    <div class="card-body">
+                        <div id="activity-list">
+                            <p class="text-secondary">Loading activity...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Use Template CTA -->
+                <div class="card section-spacing flex justify-center">
+                    <div class="card-body flex flex-col items-center gap-4">
+                        <p style="margin: 0; font-weight: var(--font-medium);">Like what you see?</p>
+                        <button class="btn btn-primary">Use This Template →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Health - OLIS</title>
+    
+    <!-- Import the shared design system -->
+    <link rel="stylesheet" href="/shared/design-system.css">
+    <link rel="stylesheet" href="/shared/components.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <a href="/" class="sidebar-brand-link" id="app-brand-link">OLIS</a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Oregon Legislature</h3>
+                    <ul class="sidebar-links">
+                        <li><a href="/" class="sidebar-link">Session Overview</a></li>
+                        <li><a href="/system-health" class="sidebar-link active">System Health</a></li>
+                        <li><a href="/examples" class="sidebar-link">Design Library</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        
+        <div class="main-content">
+            <div class="main-header">
+                <h1>System Health</h1>
+                <p>Real-time monitoring of OLIS infrastructure and service status</p>
+            </div>
+            
+            <div class="main-body">
+                <!-- Service Status Overview -->
+                <div class="card section-spacing">
+                    <div class="card-header">
+                        <h2 class="card-title">Service Status</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="status-indicator status-spacing">
+                            <span class="status-dot running" id="service-status-dot"></span>
+                            <span class="badge badge-success" id="service-status-badge">Service Running</span>
+                            <span class="text-secondary uptime-text">Uptime: <span id="system-uptime">0d 0h 0m</span></span>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <p class="stat-label">FastAPI Server</p>
+                                <p class="stat-value" id="fastapi-status">Checking...</p>
+                            </div>
+                            <div class="stat-item">
+                                <p class="stat-label">Database Health</p>
+                                <p class="stat-value" id="database-status">Checking...</p>
+                            </div>
+                            <div class="stat-item">
+                                <p class="stat-label">Memory Usage</p>
+                                <p class="stat-value" id="memory-usage">--</p>
+                            </div>
+                            <div class="stat-item">
+                                <p class="stat-label">Last Check</p>
+                                <p class="stat-value" id="last-health-check">--:--:--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alert Container -->
+                <div id="alert-container" class="alert-container-hidden"></div>
+
+                <!-- System Metrics -->
+                <div class="card section-spacing">
+                    <div class="card-header">
+                        <h2 class="card-title">System Metrics</h2>
+                        <button class="btn btn-ghost btn-sm" onclick="refreshHealthMetrics()">Refresh</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid-2">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Performance</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="stats-grid">
+                                        <div class="stat-item">
+                                            <p class="stat-label">Response Time</p>
+                                            <p class="stat-value" id="response-time">--</p>
+                                        </div>
+                                        <div class="stat-item">
+                                            <p class="stat-label">Error Rate</p>
+                                            <p class="stat-value" id="error-rate">--</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Database</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="stats-grid">
+                                        <div class="stat-item">
+                                            <p class="stat-label">Schema Version</p>
+                                            <p class="stat-value" id="schema-version">--</p>
+                                        </div>
+                                        <div class="stat-item">
+                                            <p class="stat-label">Storage Used</p>
+                                            <p class="stat-value" id="storage-used">--</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agent Status -->
+                <div class="card section-spacing">
+                    <div class="card-header">
+                        <h2 class="card-title">AI Agent Process</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid-2">
+                            <div class="status-indicator">
+                                <span class="status-dot running"></span>
+                                <span class="badge badge-success">Architecture Guardian</span>
+                                <span class="text-secondary">Monitoring design patterns</span>
+                            </div>
+                            <div class="status-indicator">
+                                <span class="status-dot running"></span>
+                                <span class="badge badge-success">Product Scope</span>
+                                <span class="text-secondary">Managing feature scope</span>
+                            </div>
+                            <div class="status-indicator">
+                                <span class="status-dot running"></span>
+                                <span class="badge badge-success">Builder</span>
+                                <span class="text-secondary">Implementing stories</span>
+                            </div>
+                            <div class="status-indicator">
+                                <span class="status-dot running"></span>
+                                <span class="badge badge-success">Process Observer</span>
+                                <span class="text-secondary">Capturing lessons</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Monitoring -->
+                <div class="card section-spacing">
+                    <div class="card-header">
+                        <h2 class="card-title">Error Monitoring</h2>
+                        <button class="btn btn-ghost btn-sm" onclick="loadErrorStats()">Refresh</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <p class="stat-label">Errors (Last Hour)</p>
+                                <p class="stat-value" id="errors-last-hour">--</p>
+                            </div>
+                            <div class="stat-item">
+                                <p class="stat-label">Total Errors</p>
+                                <p class="stat-value" id="total-errors">--</p>
+                            </div>
+                            <div class="stat-item">
+                                <p class="stat-label">Frontend Errors</p>
+                                <p class="stat-value" id="frontend-errors">--</p>
+                            </div>
+                            <div class="stat-item">
+                                <p class="stat-label">Last Error</p>
+                                <p class="stat-value" id="last-error-time">--</p>
+                            </div>
+                        </div>
+                        <div id="recent-errors-list" style="margin-top: var(--space-4);">
+                            <p class="text-secondary">Loading error history...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Configuration Info -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Configuration</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid-2">
+                            <div>
+                                <h4>Server Configuration</h4>
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <p class="stat-label">Environment</p>
+                                        <p class="stat-value" id="environment">--</p>
+                                    </div>
+                                    <div class="stat-item">
+                                        <p class="stat-label">Debug Mode</p>
+                                        <p class="stat-value" id="debug-mode">--</p>
+                                    </div>
+                                    <div class="stat-item">
+                                        <p class="stat-label">Port</p>
+                                        <p class="stat-value" id="server-port">--</p>
+                                    </div>
+                                    <div class="stat-item">
+                                        <p class="stat-label">Python Version</p>
+                                        <p class="stat-value" id="python-version">--</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>System Information</h4>
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <p class="stat-label">Platform</p>
+                                        <p class="stat-value" id="platform-info">--</p>
+                                    </div>
+                                    <div class="stat-item">
+                                        <p class="stat-label">Database Path</p>
+                                        <p class="stat-value" id="database-path">--</p>
+                                    </div>
+                                    <div class="stat-item">
+                                        <p class="stat-label">Restart Count</p>
+                                        <p class="stat-value" id="restart-count">--</p>
+                                    </div>
+                                    <div class="stat-item">
+                                        <p class="stat-label">Last Restart</p>
+                                        <p class="stat-value" id="last-restart">--</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+    <script>
+        // Health monitoring functionality
+        let startTime = Date.now();
+        
+        async function fetchHealthData() {
+            try {
+                const response = await fetch('/api/health/detailed');
+                const result = await response.json();
+                
+                if (result.success && result.data) {
+                    updateHealthDisplay(result.data);
+                } else {
+                    showHealthError();
+                }
+            } catch (error) {
+                console.error('Health check failed:', error);
+                showHealthError();
+            }
+        }
+        
+        function updateHealthDisplay(data) {
+            // Update service status
+            const statusDot = document.getElementById('service-status-dot');
+            const statusBadge = document.getElementById('service-status-badge');
+            
+            if (data.status === 'healthy') {
+                statusDot.className = 'status-dot running';
+                statusBadge.className = 'badge badge-success';
+                statusBadge.textContent = 'Service Running';
+            } else {
+                statusDot.className = 'status-dot error';
+                statusBadge.className = 'badge badge-danger';
+                statusBadge.textContent = 'Service Issues';
+            }
+            
+            // Update uptime
+            const uptimeEl = document.getElementById('system-uptime');
+            if (uptimeEl && data.uptime_seconds) {
+                const days = Math.floor(data.uptime_seconds / 86400);
+                const hours = Math.floor((data.uptime_seconds % 86400) / 3600);
+                const minutes = Math.floor((data.uptime_seconds % 3600) / 60);
+                uptimeEl.textContent = `${days}d ${hours}h ${minutes}m`;
+            }
+            
+            // Update FastAPI status
+            const fastapiEl = document.getElementById('fastapi-status');
+            if (fastapiEl) {
+                fastapiEl.innerHTML = '<span class="text-success">✓ Running</span>';
+            }
+            
+            // Update Database status
+            const dbEl = document.getElementById('database-status');
+            if (dbEl) {
+                dbEl.innerHTML = data.database_path ? 
+                    '<span class="text-success">✓ Connected</span>' : 
+                    '<span class="text-warning">⚠ No Database</span>';
+            }
+            
+            // Update Memory usage
+            const memoryEl = document.getElementById('memory-usage');
+            if (memoryEl && data.memory_mb !== undefined) {
+                memoryEl.textContent = `${data.memory_mb.toFixed(1)} MB`;
+            }
+            
+            // Update last check time
+            const lastCheckEl = document.getElementById('last-health-check');
+            if (lastCheckEl) {
+                const now = new Date();
+                lastCheckEl.textContent = now.toLocaleTimeString();
+            }
+            
+            // Update performance metrics
+            const responseTimeEl = document.getElementById('response-time');
+            if (responseTimeEl) {
+                // Calculate response time from the API call
+                const responseTime = Date.now() - startTime;
+                responseTimeEl.textContent = `${responseTime} ms`;
+            }
+            
+            // Update error rate
+            const errorRateEl = document.getElementById('error-rate');
+            if (errorRateEl) {
+                const errorRate = data.errors_last_hour || 0;
+                errorRateEl.textContent = `${errorRate} errors/hr`;
+            }
+            
+            // Update resource metrics
+            const cpuEl = document.getElementById('cpu-usage');
+            if (cpuEl) {
+                cpuEl.textContent = data.cpu_percent ? `${data.cpu_percent}%` : 'N/A';
+            }
+            
+            const diskEl = document.getElementById('disk-usage');
+            if (diskEl) {
+                diskEl.textContent = data.disk_usage ? `${data.disk_usage}%` : 'N/A';
+            }
+        }
+        
+        function showHealthError() {
+            const statusDot = document.getElementById('service-status-dot');
+            const statusBadge = document.getElementById('service-status-badge');
+            
+            if (statusDot) statusDot.className = 'status-dot error';
+            if (statusBadge) {
+                statusBadge.className = 'badge badge-danger';
+                statusBadge.textContent = 'Service Unavailable';
+            }
+            
+            // Update status fields to show error
+            ['fastapi-status', 'database-status'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = '<span class="text-danger">✗ Error</span>';
+            });
+        }
+        
+        function refreshHealthMetrics() {
+            startTime = Date.now();
+            fetchHealthData();
+        }
+        
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchHealthData();
+            
+            // Auto-refresh every 30 seconds
+            setInterval(() => {
+                startTime = Date.now();
+                fetchHealthData();
+            }, 30000);
+        });
+    </script>
+</body>
+</html>

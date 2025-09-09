@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+  <edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0" m:MaxDataServiceVersion="3.0">
+    <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" Namespace="State.Or.Leg.API.OData">
+      <!-- Core Entity Types -->
+      <EntityType Name="LegislativeSession">
+        <Key>
+          <PropertyRef Name="SessionKey"/>
+        </Key>
+        <Property Name="SessionKey" Type="Edm.String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false"/>
+        <Property Name="SessionName" Type="Edm.String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false"/>
+        <Property Name="BeginDate" Type="Edm.DateTime" Nullable="false" Precision="3"/>
+        <Property Name="EndDate" Type="Edm.DateTime" Precision="3"/>
+        <Property Name="CreatedDate" Type="Edm.DateTime" Nullable="false" Precision="3"/>
+        <Property Name="ModifiedDate" Type="Edm.DateTime" Precision="3"/>
+        <Property Name="DefaultSession" Type="Edm.Boolean" Nullable="false"/>
+        <NavigationProperty Name="Measures" Relationship="State.Or.Leg.API.OData.LegislativeSessionMeasure" ToRole="Measure" FromRole="LegislativeSession"/>
+        <NavigationProperty Name="Committees" Relationship="State.Or.Leg.API.OData.LegislativeSessionCommittees" ToRole="Committees" FromRole="LegislativeSession"/>
+        <NavigationProperty Name="Legislators" Relationship="State.Or.Leg.API.OData.LegislativeSessionLegislator" ToRole="Legislator" FromRole="LegislativeSession"/>
+      </EntityType>
+
+      <EntityType Name="Measure">
+        <Key>
+          <PropertyRef Name="MeasureNumber"/>
+          <PropertyRef Name="MeasurePrefix"/>
+          <PropertyRef Name="SessionKey"/>
+        </Key>
+        <Property Name="SessionKey" Type="Edm.String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false"/>
+        <Property Name="MeasurePrefix" Type="Edm.String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false"/>
+        <Property Name="MeasureNumber" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="CatchLine" Type="Edm.String" MaxLength="2000" FixedLength="false" Unicode="false"/>
+        <Property Name="MeasureSummary" Type="Edm.String" MaxLength="4000" FixedLength="false" Unicode="false"/>
+        <Property Name="CurrentVersion" Type="Edm.String" MaxLength="1" FixedLength="false" Unicode="false"/>
+        <Property Name="CurrentLocation" Type="Edm.String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false"/>
+        <Property Name="CurrentCommitteeCode" Type="Edm.String" MaxLength="6" FixedLength="false" Unicode="false"/>
+        <Property Name="FiscalImpact" Type="Edm.String" MaxLength="250" FixedLength="false" Unicode="false"/>
+        <Property Name="RevenueImpact" Type="Edm.String" MaxLength="250" FixedLength="false" Unicode="false"/>
+        <Property Name="EmergencyClause" Type="Edm.Boolean"/>
+        <Property Name="EffectiveDate" Type="Edm.DateTime" Precision="3"/>
+        <Property Name="Vetoed" Type="Edm.Boolean"/>
+        <Property Name="CreatedDate" Type="Edm.DateTime" Nullable="false" Precision="3"/>
+        <Property Name="ModifiedDate" Type="Edm.DateTime" Precision="3"/>
+        <Property Name="PrefixMeaning" Type="Edm.String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false"/>
+        <NavigationProperty Name="MeasureHistoryActions" Relationship="State.Or.Leg.API.OData.MeasureMeasureHistoryAction" ToRole="MeasureHistoryAction" FromRole="Measure"/>
+        <NavigationProperty Name="MeasureDocuments" Relationship="State.Or.Leg.API.OData.MeasureMeasureDocument" ToRole="MeasureDocument" FromRole="Measure"/>
+        <NavigationProperty Name="MeasureSponsors" Relationship="State.Or.Leg.API.OData.MeasureMeasureSponsor" ToRole="MeasureSponsor" FromRole="Measure"/>
+      </EntityType>
+
+      <EntityType Name="CommitteePublicTestimony">
+        <Key>
+          <PropertyRef Name="CommitteeCode"/>
+          <PropertyRef Name="CommTestId"/>
+          <PropertyRef Name="CreatedDate"/>
+          <PropertyRef Name="MeetingDate"/>
+          <PropertyRef Name="PdfCreatedFlag"/>
+          <PropertyRef Name="SubmitterFirstName"/>
+          <PropertyRef Name="SubmitterLastName"/>
+        </Key>
+        <Property Name="CommTestId" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="SubmitterFirstName" Type="Edm.String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false"/>
+        <Property Name="SubmitterLastName" Type="Edm.String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false"/>
+        <Property Name="BehalfOf" Type="Edm.String" MaxLength="100" FixedLength="false" Unicode="false"/>
+        <Property Name="Organization" Type="Edm.String" MaxLength="100" FixedLength="false" Unicode="false"/>
+        <Property Name="DocumentDescription" Type="Edm.String" MaxLength="100" FixedLength="false" Unicode="false"/>
+        <Property Name="CreatedDate" Type="Edm.DateTime" Nullable="false" Precision="3"/>
+        <Property Name="ModifiedDate" Type="Edm.DateTime" Precision="3"/>
+        <Property Name="PdfCreatedFlag" Type="Edm.String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false"/>
+        <Property Name="PositionOnMeasureId" Type="Edm.Int32"/>
+        <Property Name="SessionKey" Type="Edm.String" MaxLength="10" FixedLength="false" Unicode="false"/>
+        <Property Name="CommitteeCode" Type="Edm.String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false"/>
+        <Property Name="MeetingDate" Type="Edm.DateTime" Nullable="false" Precision="3"/>
+        <Property Name="MeasurePrefix" Type="Edm.String" MaxLength="3" FixedLength="false" Unicode="false"/>
+        <Property Name="MeasureNumber" Type="Edm.Int32"/>
+        <Property Name="DocumentUrl" Type="Edm.String" MaxLength="261" FixedLength="false" Unicode="false"/>
+        <Property Name="Topic" Type="Edm.String" MaxLength="2000" FixedLength="false" Unicode="false"/>
+      </EntityType>
+      
+      <!-- Additional entity types would continue here... -->
+    </Schema>
+    
+    <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" Namespace="State.Or.Leg.API.Entites">
+      <EntityContainer Name="ApiEntities" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="LegislativeSessions" EntityType="State.Or.Leg.API.OData.LegislativeSession"/>
+        <EntitySet Name="Measures" EntityType="State.Or.Leg.API.OData.Measure"/>
+        <EntitySet Name="Committees" EntityType="State.Or.Leg.API.OData.Committee"/>
+        <EntitySet Name="CommitteePublicTestimonies" EntityType="State.Or.Leg.API.OData.CommitteePublicTestimony"/>
+        <!-- Additional entity sets... -->
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

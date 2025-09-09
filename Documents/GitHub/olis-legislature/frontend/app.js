@@ -1,5 +1,5 @@
 /**
- * OLIS Application JavaScript
+ * OLIS Application JavaScript - Updated Top 5 Lists
  * Handles Oregon Legislative Information System interactions
  */
 
@@ -390,7 +390,10 @@ function displayHotBills(hotBillsData) {
                         <div class="hot-bill-header">
                             <span class="heat-indicator">${bill.heat_emoji}</span>
                         </div>
-                        <span class="bill-label">${bill.bill_id}</span>
+                        <div class="bill-id-section">
+                            <span class="bill-label">${bill.bill_id}</span>
+                            ${bill.status_display ? `<span class="bill-status-badge status-${bill.status_display.color}">${bill.status_display.display_name}</span>` : ''}
+                        </div>
                         <div class="bill-title" title="${bill.title}">${bill.title}</div>
                         
                         <!-- Position Breakdown Summary -->
@@ -436,10 +439,10 @@ function displayHotBills(hotBillsData) {
                             </div>
                             
                             <div class="detail-section">
-                                <h4>🏙️ Top 10 Cities/Locations</h4>
+                                <h4>🏙️ Top 5 Cities/Locations</h4>
                                 <ol class="top-submitters-list">
                                     ${(bill.top_submitters || []).map((submitter, index) => 
-                                        `<li>${submitter.emoji} <strong>${submitter.name}</strong> (${submitter.count} ${submitter.count === 1 ? 'testimony' : 'testimonies'})</li>`
+                                        `<li>${submitter.emoji} <strong>${submitter.name}</strong> (${submitter.count})</li>`
                                     ).join('')}
                                 </ol>
                                 ${!bill.top_submitters || bill.top_submitters.length === 0 ? 
@@ -447,10 +450,10 @@ function displayHotBills(hotBillsData) {
                             </div>
                             
                             <div class="detail-section">
-                                <h4>🏛️ Top 10 On Behalf Of</h4>
+                                <h4>🏛️ Top 5 On Behalf Of</h4>
                                 <ol class="top-behalf-of-list">
                                     ${(bill.top_behalf_of || []).map((behalf, index) => 
-                                        `<li>${behalf.emoji} <strong>${behalf.name}</strong> (${behalf.count} ${behalf.count === 1 ? 'testimony' : 'testimonies'})</li>`
+                                        `<li>${behalf.emoji} <strong>${behalf.name}</strong> (${behalf.count})</li>`
                                     ).join('')}
                                 </ol>
                                 ${!bill.top_behalf_of || bill.top_behalf_of.length === 0 ? 
@@ -481,6 +484,8 @@ function toggleBillDetails(billId) {
     const detailsPanel = document.getElementById(billId + '-details');
     const toggleButton = document.querySelector(`button.details-toggle[data-bill-id="${billId}"]`);
     const toggleIcon = toggleButton?.querySelector('.toggle-icon');
+    const billContainer = toggleButton?.closest('.hot-bill-container');
+    const billButton = billContainer?.querySelector('.hot-bill-button');
     
     if (detailsPanel) {
         const isVisible = detailsPanel.style.display !== 'none';
@@ -489,12 +494,58 @@ function toggleBillDetails(billId) {
             // Hide details
             detailsPanel.style.display = 'none';
             if (toggleIcon) toggleIcon.textContent = '▼';
-            if (toggleButton) toggleButton.title = 'Show Details';
+            if (toggleButton) {
+                toggleButton.title = 'Show Details';
+                toggleButton.classList.remove('active');
+            }
+            if (billButton) billButton.classList.remove('active');
+            if (billContainer) billContainer.classList.remove('expanded');
         } else {
-            // Show details
+            // First, close all other open details and remove active states
+            const allDetailsPanels = document.querySelectorAll('.bill-details');
+            const allToggleButtons = document.querySelectorAll('.details-toggle');
+            const allBillButtons = document.querySelectorAll('.hot-bill-button');
+            const allBillContainers = document.querySelectorAll('.hot-bill-container');
+            
+            allDetailsPanels.forEach(panel => {
+                panel.style.display = 'none';
+            });
+            
+            allToggleButtons.forEach(btn => {
+                const icon = btn.querySelector('.toggle-icon');
+                if (icon) icon.textContent = '▼';
+                btn.title = 'Show Details';
+                btn.classList.remove('active');
+            });
+            
+            allBillButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            allBillContainers.forEach(container => {
+                container.classList.remove('expanded');
+            });
+            
+            // Now show this specific details panel
             detailsPanel.style.display = 'block';
             if (toggleIcon) toggleIcon.textContent = '▲';
-            if (toggleButton) toggleButton.title = 'Hide Details';
+            if (toggleButton) {
+                toggleButton.title = 'Hide Details';
+                toggleButton.classList.add('active');
+            }
+            if (billButton) billButton.classList.add('active');
+            if (billContainer) {
+                billContainer.classList.add('expanded');
+                
+                // Smooth scroll to bring the expanded container to the top
+                setTimeout(() => {
+                    billContainer.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
+                    });
+                }, 100); // Small delay to allow DOM updates
+            }
         }
     }
 }

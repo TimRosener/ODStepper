@@ -1,0 +1,27 @@
+{
+  "name": "olis-legislature",
+  "version": "1.0.0",
+  "description": "A comprehensive web application for tracking Oregon legislative sessions, bills, and providing real-time legislative information with advanced analytics. Built with the company's unified design system and integrated with the official OLIS OData API.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "npx playwright test",
+    "test:e2e": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:debug": "npx playwright test --debug",
+    "test:report": "npx playwright show-report",
+    "test:install": "npx playwright install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}

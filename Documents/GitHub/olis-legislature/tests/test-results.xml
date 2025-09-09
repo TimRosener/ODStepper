@@ -1,0 +1,28 @@
+<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="1.8925209999999997">
+<testsuite name="bill-status-display.spec.js" timestamp="2025-09-09T18:36:53.067Z" hostname="chromium" tests="1" failures="0" skipped="0" time="0.795" errors="0">
+<testcase name="Bill Status Display Feature › should display bill status badges in hot bills" classname="bill-status-display.spec.js" time="0.795">
+<system-out>
+<![CDATA[🏛️ Testing bill status badge display...
+✅ Hot bills section loaded
+📊 Found 2 hot bills
+🔍 First bill HTML structure: 
+                        <div class="hot-bill-header">
+                            <span class="heat-indicator">🔥</span>
+                        </div>
+                        <div class="bill-id-section">
+                            <span class="bill-label">HB3991</span>
+                            <span class="bill-status-badge status-secondary">Unknown Status</span>
+                        </div>
+                        <div class="bill-title" title="Directs the Division of Audits to conduct
+📊 Bill 1 structure: hot-bill-header=1, bill-id-section=1, bill-label=1, status-badge=1
+📄 Bill 1: HB3991
+📊 Status: Unknown Status
+📊 Bill 2 structure: hot-bill-header=1, bill-id-section=1, bill-label=1, status-badge=1
+📄 Bill 2: HB3992
+📊 Status: Unknown Status
+✅ All hot bills display status badges correctly
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

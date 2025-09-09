@@ -408,6 +408,23 @@
     box-shadow: var(--shadow-xs);
 }
 
+/* Active state for bill with open details */
+.hot-bill-button.active {
+    background-color: var(--primary-light);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.hot-bill-button.active .bill-label {
+    color: var(--primary);
+    font-weight: var(--font-bold);
+}
+
+.hot-bill-button.active .heat-indicator {
+    filter: brightness(1.2);
+}
+
 /* Heat level styling */
 .heat-blazing {
     border-color: #ff4444;
@@ -576,6 +593,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    transition: all var(--transition);
 }
 
 
@@ -633,6 +651,21 @@
     border-color: var(--primary);
 }
 
+/* Active state for toggle button when details are open */
+.details-toggle.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    font-weight: var(--font-semibold);
+    box-shadow: var(--shadow-sm);
+}
+
+.details-toggle.active:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: white;
+}
+
 .toggle-icon {
     font-size: var(--text-xs);
     transition: transform var(--transition);
@@ -644,6 +677,34 @@
     border-radius: var(--radius-md);
     padding: var(--space-4);
     margin-top: var(--space-2);
+    /* Full width within container */
+    width: calc(100% - var(--space-4));
+    margin-left: var(--space-2);
+    box-shadow: var(--shadow-md);
+    /* Clean details panel without extra borders */
+}
+
+/* Full width container for active hot bill */
+.hot-bill-container.expanded {
+    /* Break out of grid and take full width of main content */
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: none;
+    margin: 0 0 var(--space-4) 0;
+    padding: var(--space-2);
+    box-sizing: border-box;
+    /* Subtle visual connection styling */
+    border: 1px solid var(--primary-light);
+    border-radius: var(--radius-md);
+    background-color: var(--primary-lighter);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Full width hot bill button when expanded */
+.hot-bill-container.expanded .hot-bill-button {
+    width: 100%;
+    max-width: none;
+    margin: 0;
 }
 
 .details-grid {
@@ -740,5 +801,196 @@
     
     .position-summary {
         justify-content: center;
+    }
+}
+
+/* Bill Status Badge Styling */
+.bill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-2);
+    gap: var(--space-2);
+}
+
+.bill-id-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    margin: var(--space-2) 0;
+}
+
+.bill-id-with-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+    flex: 1;
+    min-width: 0; /* Allow text truncation */
+}
+
+.bill-id {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--text);
+    line-height: 1;
+}
+
+.bill-status-badge {
+    display: inline-block;
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Status color variants using design system colors */
+.bill-status-badge.status-primary {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.bill-status-badge.status-success {
+    background-color: var(--success-light);
+    color: var(--success);
+    border-color: var(--success);
+}
+
+.bill-status-badge.status-warning {
+    background-color: var(--warning-light);
+    color: var(--warning);
+    border-color: var(--warning);
+}
+
+.bill-status-badge.status-danger {
+    background-color: var(--danger-light);
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.bill-status-badge.status-info {
+    background-color: var(--info-light);
+    color: var(--info);
+    border-color: var(--info);
+}
+
+.bill-status-badge.status-secondary {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border-color: var(--border);
+}
+
+.heat-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    flex-shrink: 0;
+}
+
+.heat-emoji {
+    font-size: var(--text-lg);
+    line-height: 1;
+}
+
+.heat-level {
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.bill-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--border-light);
+}
+
+.bill-stats .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    min-width: 0;
+    flex: 1;
+}
+
+.bill-stats .stat-number {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--text);
+    line-height: 1;
+    margin: 0;
+}
+
+.bill-stats .stat-label {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    text-transform: lowercase;
+    letter-spacing: 0;
+    line-height: 1;
+}
+
+/* Responsive adjustments for status badges */
+@media (max-width: 768px) {
+    .bill-id-with-status {
+        gap: var(--space-half);
+    }
+    
+    .bill-status-badge {
+        font-size: var(--text-xxs);
+        padding: var(--space-half) var(--space-1);
+        max-width: 80px;
+    }
+    
+    .bill-id {
+        font-size: var(--text-base);
+    }
+    
+    .heat-indicator {
+        gap: var(--space-half);
+    }
+    
+    .heat-emoji {
+        font-size: var(--text-base);
+    }
+}
+
+@media (max-width: 480px) {
+    .bill-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+    }
+    
+    .bill-id-with-status {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .heat-indicator {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-1);
+    }
+    
+    .bill-status-badge {
+        max-width: 100px;
     }
 }

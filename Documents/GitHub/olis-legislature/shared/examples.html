@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Library - OLIS</title>
+    <link rel="stylesheet" href="/shared/design-system.css">
+    <link rel="stylesheet" href="/shared/components.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <a href="/" class="sidebar-brand-link">OLIS</a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-section-title">Oregon Legislature</h3>
+                    <ul class="sidebar-links">
+                        <li><a href="/" class="sidebar-link">Session Overview</a></li>
+                        <li><a href="/system-health" class="sidebar-link">System Health</a></li>
+                        <li><a href="/examples" class="sidebar-link active">Design Library</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        
+        <div class="main-content">
+            <div class="main-header">
+                <h1>Design Library</h1>
+                <p class="text-secondary">OLIS UI components and design patterns</p>
+            </div>
+            
+            <div class="main-body">
+    
+                <!-- Status Indicators -->
+                <section class="section-spacing">
+                    <h2>Status Indicators</h2>
+        <div class="flex gap-4">
+            <div class="status-indicator">
+                <span class="status-dot running"></span>
+                <span>Running</span>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot stopped"></span>
+                <span>Stopped</span>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot pending"></span>
+                <span>Pending</span>
+            </div>
+        </div>
+                </section>
+                
+                <!-- Badges -->
+                <section class="section-spacing">
+        <h2>Badges</h2>
+        <div class="flex gap-2">
+            <span class="badge badge-success">Success</span>
+            <span class="badge badge-warning">Warning</span>
+            <span class="badge badge-danger">Danger</span>
+            <span class="badge badge-info">Info</span>
+            <span class="badge badge-default">Default</span>
+        </div>
+                </section>
+                
+                <!-- Buttons -->
+                <section class="section-spacing">
+                    <h2>Buttons</h2>
+                    
+                    <h3>Variants</h3>
+                    <div class="flex gap-2 section-spacing">
+                        <button class="btn btn-primary">Primary</button>
+                        <button class="btn btn-secondary">Secondary</button>
+                        <button class="btn btn-success">Success</button>
+                        <button class="btn btn-danger">Danger</button>
+                        <button class="btn btn-ghost">Ghost</button>
+                    </div>
+                    
+                    <h3>Sizes</h3>
+                    <div class="flex items-center gap-2">
+                        <button class="btn btn-sm btn-primary">Small</button>
+                        <button class="btn btn-primary">Default</button>
+                        <button class="btn btn-lg btn-primary">Large</button>
+                    </div>
+                    
+                    <h3>States</h3>
+                    <div class="flex gap-2">
+                        <button class="btn btn-primary">Normal</button>
+                        <button class="btn btn-primary" disabled>Disabled</button>
+                    </div>
+                </section>
+                
+                <!-- Cards -->
+                <section class="section-spacing">
+                    <h2>Cards</h2>
+                    
+                    <div class="card section-spacing">
+                        <div class="card-header">
+                            <h3 class="card-title">Card with Header</h3>
+                            <span class="badge badge-success">Active</span>
+                        </div>
+                        <div class="card-body">
+                            <p>This is the card body content. Cards are used for grouping related information.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Simple Card</h3>
+                            <p>Cards don't always need headers. This is a simple card with just a body.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Alerts -->
+                <section class="section-spacing">
+                    <h2>Alerts</h2>
+        
+        <div class="alert alert-success">
+            <div class="alert-content">
+                <div class="alert-title">Success</div>
+                <div>Operation completed successfully!</div>
+            </div>
+        </div>
+        
+        <div class="alert alert-warning">
+            <div class="alert-content">
+                <div class="alert-title">Warning</div>
+                <div>Please review before proceeding.</div>
+            </div>
+        </div>
+        
+        <div class="alert alert-danger">
+            <div class="alert-content">
+                <div class="alert-title">Error</div>
+                <div>Something went wrong. Please try again.</div>
+            </div>
+        </div>
+        
+        <div class="alert alert-info">
+            <div class="alert-content">
+                <div class="alert-title">Info</div>
+                <div>Here's some helpful information.</div>
+            </div>
+        </div>
+    </section>
+    
+                <!-- Forms -->
+                <section class="section-spacing">
+                    <h2>Forms</h2>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                    <label class="form-label">Text Input</label>
+                    <input type="text" class="form-input" placeholder="Enter text...">
+                    <p class="form-hint">This is a hint text</p>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Select</label>
+                    <select class="form-select">
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Textarea</label>
+                    <textarea class="form-textarea" placeholder="Enter multiple lines..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" class="form-checkbox">
+                        Checkbox option
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="radio" class="form-radio" name="radio-example">
+                        Radio option 1
+                    </label>
+                    <br>
+                    <label>
+                        <input type="radio" class="form-radio" name="radio-example">
+                        Radio option 2
+                    </label>
+                </div>
+                
+                <button class="btn btn-primary">Submit Form</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Tables -->
+    <section style="margin-bottom: var(--space-8);">
+        <h2>Tables</h2>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Last Updated</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Service 1</td>
+                    <td><span class="badge badge-success">Running</span></td>
+                    <td>2 minutes ago</td>
+                    <td><button class="btn btn-sm btn-ghost">View</button></td>
+                </tr>
+                <tr>
+                    <td>Service 2</td>
+                    <td><span class="badge badge-danger">Stopped</span></td>
+                    <td>1 hour ago</td>
+                    <td><button class="btn btn-sm btn-ghost">View</button></td>
+                </tr>
+                <tr>
+                    <td>Service 3</td>
+                    <td><span class="badge badge-warning">Starting</span></td>
+                    <td>Just now</td>
+                    <td><button class="btn btn-sm btn-ghost">View</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Loading States -->
+    <section style="margin-bottom: var(--space-8);">
+        <h2>Loading States</h2>
+        
+        <div class="flex items-center gap-4" style="margin-bottom: var(--space-4);">
+            <div class="spinner"></div>
+            <span>Loading...</span>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="skeleton" style="height: 20px; width: 200px; margin-bottom: var(--space-2);"></div>
+                <div class="skeleton" style="height: 16px; width: 100%;"></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Navigation -->
+    <section style="margin-bottom: var(--space-8);">
+        <h2>Navigation</h2>
+        
+        <nav class="nav">
+            <a href="#" class="nav-brand">Application Name</a>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active">Dashboard</a></li>
+                <li><a href="#" class="nav-link">Settings</a></li>
+                <li><a href="#" class="nav-link">Help</a></li>
+            </ul>
+        </nav>
+    </section>
+    
+    <!-- Grid Layouts -->
+    <section style="margin-bottom: var(--space-8);">
+        <h2>Grid Layouts</h2>
+        
+        <h3>2 Column Grid</h3>
+        <div class="grid grid-2" style="margin-bottom: var(--space-4);">
+            <div class="card">
+                <div class="card-body">Column 1</div>
+            </div>
+            <div class="card">
+                <div class="card-body">Column 2</div>
+            </div>
+        </div>
+        
+        <h3>3 Column Grid</h3>
+        <div class="grid grid-3">
+            <div class="card">
+                <div class="card-body">Column 1</div>
+            </div>
+            <div class="card">
+                <div class="card-body">Column 2</div>
+            </div>
+            <div class="card">
+                <div class="card-body">Column 3</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Typography -->
+    <section style="margin-bottom: var(--space-8);">
+        <h2>Typography</h2>
+        
+        <h1>Heading 1</h1>
+        <h2>Heading 2</h2>
+        <h3>Heading 3</h3>
+        <h4>Heading 4</h4>
+        <h5>Heading 5</h5>
+        <h6>Heading 6</h6>
+        
+        <p>Regular paragraph text with <a href="#">a link</a> and <code>inline code</code>.</p>
+        
+        <p class="text-large">Large text for emphasis</p>
+        <p>Normal text size</p>
+        <p class="text-small text-secondary">Small secondary text</p>
+        
+        <pre>
+// Code block example
+function example() {
+    return "Hello World";
+}</pre>
+    </section>
+    
+    <!-- Color Palette -->
+    <section style="margin-bottom: var(--space-8);">
+        <h2>Color Palette</h2>
+        
+        <div class="grid grid-3">
+            <div class="card">
+                <div class="card-body">
+                    <div style="width: 100%; height: 60px; background: var(--primary); border-radius: var(--radius); margin-bottom: var(--space-2);"></div>
+                    <p class="text-small">Primary</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div style="width: 100%; height: 60px; background: var(--success); border-radius: var(--radius); margin-bottom: var(--space-2);"></div>
+                    <p class="text-small">Success</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div style="width: 100%; height: 60px; background: var(--warning); border-radius: var(--radius); margin-bottom: var(--space-2);"></div>
+                    <p class="text-small">Warning</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div style="width: 100%; height: 60px; background: var(--danger); border-radius: var(--radius); margin-bottom: var(--space-2);"></div>
+                    <p class="text-small">Danger</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div style="width: 100%; height: 60px; background: var(--info); border-radius: var(--radius); margin-bottom: var(--space-2);"></div>
+                    <p class="text-small">Info</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div style="width: 100%; height: 60px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: var(--space-2);"></div>
+                    <p class="text-small">Secondary</p>
+                </div>
+            </div>
+                </div>
+                </section>
+                
+                <!-- OLIS-Specific Components -->
+                <section class="section-spacing">
+                    <h2>OLIS-Specific Components</h2>
+                    
+                    <!-- Bill Status Indicators -->
+                    <div class="card card-bordered">
+                        <h3>Bill Status Indicators</h3>
+                        <div class="grid-4">
+                            <div class="stat-item primary">
+                                <p class="stat-number">156</p>
+                                <p class="stat-label">Introduced</p>
+                            </div>
+                            <div class="stat-item success">
+                                <p class="stat-number">42</p>
+                                <p class="stat-label">Passed</p>
+                            </div>
+                            <div class="stat-item warning">
+                                <p class="stat-number">23</p>
+                                <p class="stat-label">In Committee</p>
+                            </div>
+                            <div class="stat-item danger">
+                                <p class="stat-number">8</p>
+                                <p class="stat-label">Failed</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hot Bill Cards -->
+                    <div class="card card-bordered">
+                        <h3>Hot Bill Cards with Heat Levels</h3>
+                        <div class="grid-4">
+                            <div class="hot-bill-container">
+                                <button class="bill-button hot-bill-button heat-blazing">
+                                    <div class="hot-bill-header">
+                                        <span class="heat-indicator">🔥</span>
+                                        <span class="bill-count">2845</span>
+                                    </div>
+                                    <span class="bill-label">HB2025</span>
+                                    <span class="bill-percentage">2845 testimonies</span>
+                                    <div class="position-summary">
+                                        <span class="position-item in-favor">👍 2020</span>
+                                        <span class="position-item against">👎 686</span>
+                                        <span class="position-item neutral">⚖️ 139</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="hot-bill-container">
+                                <button class="bill-button hot-bill-button heat-hot">
+                                    <div class="hot-bill-header">
+                                        <span class="heat-indicator">🌶️</span>
+                                        <span class="bill-count">637</span>
+                                    </div>
+                                    <span class="bill-label">SB243</span>
+                                    <span class="bill-percentage">637 testimonies</span>
+                                    <div class="position-summary">
+                                        <span class="position-item in-favor">👍 625</span>
+                                        <span class="position-item against">👎 12</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="hot-bill-container">
+                                <button class="bill-button hot-bill-button heat-warm">
+                                    <div class="hot-bill-header">
+                                        <span class="heat-indicator">🔶</span>
+                                        <span class="bill-count">89</span>
+                                    </div>
+                                    <span class="bill-label">HB3456</span>
+                                    <span class="bill-percentage">89 testimonies</span>
+                                </button>
+                            </div>
+                            <div class="hot-bill-container">
+                                <button class="bill-button hot-bill-button heat-mild">
+                                    <div class="hot-bill-header">
+                                        <span class="heat-indicator">🟡</span>
+                                        <span class="bill-count">34</span>
+                                    </div>
+                                    <span class="bill-label">SB789</span>
+                                    <span class="bill-percentage">34 testimonies</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Session Total Display -->
+                    <div class="card card-bordered">
+                        <h3>Session Summary Display</h3>
+                        <div class="session-header">
+                            <div>
+                                <h2 class="card-title">2025 Regular Session Dashboard</h2>
+                                <span class="text-secondary">Active legislative session with high engagement</span>
+                            </div>
+                            <div class="session-total">
+                                <span class="total-count">847</span>
+                                <span class="total-label">Total Bills</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Position Indicators -->
+                    <div class="card card-bordered">
+                        <h3>Testimony Position Indicators</h3>
+                        <div class="position-summary" style="max-width: 400px;">
+                            <span class="position-item in-favor">👍 In Favor: 2020</span>
+                            <span class="position-item against">👎 Against: 686</span>
+                            <span class="position-item neutral">⚖️ Neutral: 139</span>
+                            <span class="position-item unknown">❓ Unknown: 0</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Placeholder function for navigation links
+        function showPlaceholder(resource) {
+            alert(`${resource} coming soon! This is a placeholder.`);
+        }
+    </script>
+</body>
+</html>

@@ -856,24 +856,56 @@ async def run_manual_sync(sync_request: dict = None):
         )
 
 @app.post("/api/admin/vacuum")
-async def vacuum_database(db: AsyncSession = Depends(get_db_session)):
+async def vacuum_database():
     """Run database vacuum operation"""
+    import time
+    import asyncpg
+    from urllib.parse import urlparse
+    
+    start_time = time.time()
+    
     try:
-        # Note: VACUUM cannot run inside a transaction in PostgreSQL
-        # This would need to be implemented differently in production
-        return create_success_response({
-            "status": "completed",
-            "operation": "vacuum",
-            "duration": "2.3 seconds",
-            "timestamp": datetime.now().isoformat()
-        })
+        # Parse the database URL to get connection parameters
+        from database_config import DATABASE_URL
+        
+        # Convert asyncpg URL to regular PostgreSQL URL for asyncpg
+        db_url = DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
+        
+        # Create a direct asyncpg connection (VACUUM cannot run in transactions)
+        conn = await asyncpg.connect(db_url)
+        
+        try:
+            # Run VACUUM ANALYZE for comprehensive maintenance
+            await conn.execute("VACUUM ANALYZE")
+            
+            # Calculate duration
+            duration = round(time.time() - start_time, 2)
+            
+            return create_success_response({
+                "status": "completed",
+                "operation": "vacuum_analyze",
+                "duration": f"{duration} seconds",
+                "timestamp": datetime.now().isoformat(),
+                "details": [
+                    "Vacuum operation completed successfully",
+                    "Database statistics updated",
+                    "Storage space reclaimed"
+                ]
+            })
+            
+        finally:
+            await conn.close()
         
     except Exception as e:
+        duration = round(time.time() - start_time, 2)
         return create_error_response(
             status_code=500,
             error_code="MAINTENANCE_ERROR",
             message="Failed to vacuum database",
-            details=str(e) if ENABLE_DEBUG else "Vacuum operation error"
+            details={
+                "error": str(e) if ENABLE_DEBUG else "Vacuum operation error",
+                "duration": f"{duration} seconds"
+            }
         )
 
 @app.post("/api/admin/backup")

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLIS Administration Interface</title>
+    <link rel="stylesheet" href="/shared/design-system.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .admin-header {
+            background: linear-gradient(135deg, var(--danger) 0%, var(--danger-dark) 100%);
+            color: white;
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+            border-radius: var(--radius-lg);
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            padding: var(--space-4);
+            background: var(--surface-1);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--danger);
+        }
+
+        .admin-nav button {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .admin-nav button:hover {
+            background: var(--surface-3);
+            border-color: var(--primary);
+        }
+
+        .admin-nav button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .admin-section {
+            display: none;
+            background: var(--surface-0);
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            margin-bottom: var(--space-6);
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .db-status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .db-status-card {
+            padding: var(--space-4);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--surface-1);
+        }
+
+        .db-status-card.healthy {
+            border-left: 4px solid var(--success);
+            background: color-mix(in srgb, var(--success) 5%, var(--surface-1));
+        }
+
+        .db-status-card.error {
+            border-left: 4px solid var(--danger);
+            background: color-mix(in srgb, var(--danger) 5%, var(--surface-1));
+        }
+
+        .table-browser {
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--surface-0);
+        }
+
+        .table-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .table-item {
+            padding: var(--space-3);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .table-item:hover {
+            background: var(--surface-1);
+        }
+
+        .table-item:last-child {
+            border-bottom: none;
+        }
+
+        .migration-controls {
+            display: flex;
+            gap: var(--space-3);
+            margin: var(--space-4) 0;
+        }
+
+        .log-viewer {
+            background: var(--surface-2);
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .sync-schedule {
+            background: var(--surface-1);
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        .warning-banner {
+            background: color-mix(in srgb, var(--warning) 10%, var(--surface-0));
+            border: 1px solid var(--warning);
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-6);
+            border-left: 4px solid var(--warning);
+        }
+
+        .danger-action {
+            background: var(--danger) !important;
+            color: white !important;
+        }
+
+        .danger-action:hover {
+            background: var(--danger-dark) !important;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--space-4) 0;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: var(--space-2) var(--space-3);
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table th {
+            background: var(--surface-2);
+            font-weight: 600;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: var(--space-2);
+        }
+
+        .status-healthy { background: var(--success); }
+        .status-warning { background: var(--warning); }
+        .status-error { background: var(--danger); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Breadcrumb -->
+        <div style="margin-bottom: var(--space-4);">
+            <a href="/" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: var(--space-2);">
+                ← Back to OLIS Dashboard
+            </a>
+        </div>
+
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <h1>🔧 OLIS Administration Interface</h1>
+            <p>Database management, synchronization, and system administration</p>
+        </div>
+
+        <!-- Warning Banner -->
+        <div class="warning-banner">
+            <h3>⚠️ Administrator Access Required</h3>
+            <p>This interface provides powerful administrative tools. Use with caution in production environments.</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="admin-nav">
+            <button id="nav-database" class="active" onclick="showSection('database')">
+                🗄️ Database Management
+            </button>
+            <button id="nav-sync" onclick="showSection('sync')">
+                🔄 OLIS Synchronization
+            </button>
+            <button id="nav-monitoring" onclick="showSection('monitoring')">
+                📊 System Monitoring
+            </button>
+            <button id="nav-maintenance" onclick="showSection('maintenance')">
+                🛠️ Maintenance Tools
+            </button>
+        </div>
+
+        <!-- Database Management Section -->
+        <div id="section-database" class="admin-section active">
+            <h2>🗄️ Database Management</h2>
+
+            <!-- Database Status Overview -->
+            <div class="db-status-grid">
+                <div id="db-connection-card" class="db-status-card">
+                    <h3>Connection Status</h3>
+                    <div id="db-connection-status">
+                        <span class="status-indicator"></span>
+                        <span>Checking...</span>
+                    </div>
+                    <div id="db-connection-details"></div>
+                </div>
+
+                <div id="db-tables-card" class="db-status-card">
+                    <h3>Tables & Schema</h3>
+                    <div id="db-tables-status">
+                        <span class="status-indicator"></span>
+                        <span>Loading...</span>
+                    </div>
+                    <div id="db-tables-details"></div>
+                </div>
+
+                <div id="db-migration-card" class="db-status-card">
+                    <h3>Migration Status</h3>
+                    <div id="db-migration-status">
+                        <span class="status-indicator"></span>
+                        <span>Checking...</span>
+                    </div>
+                    <div id="db-migration-details"></div>
+                </div>
+
+                <div id="db-performance-card" class="db-status-card">
+                    <h3>Performance</h3>
+                    <div id="db-performance-status">
+                        <span class="status-indicator"></span>
+                        <span>Monitoring...</span>
+                    </div>
+                    <div id="db-performance-details"></div>
+                </div>
+            </div>
+
+            <!-- Migration Management -->
+            <div class="section-content">
+                <h3>Migration Management</h3>
+                <div class="migration-controls">
+                    <button class="btn btn-primary" onclick="checkMigrationStatus()">
+                        📋 Check Status
+                    </button>
+                    <button class="btn btn-secondary" onclick="showMigrationHistory()">
+                        📜 History
+                    </button>
+                    <button class="btn btn-warning" onclick="runMigrations()">
+                        ⚡ Run Pending
+                    </button>
+                    <button class="btn btn-danger danger-action" onclick="rollbackMigration()">
+                        ↩️ Rollback
+                    </button>
+                </div>
+                <div id="migration-output" class="log-viewer" style="display: none;"></div>
+            </div>
+
+            <!-- Table Browser -->
+            <div class="section-content">
+                <h3>Database Tables</h3>
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-4);">
+                    <div class="table-browser">
+                        <ul id="table-list" class="table-list">
+                            <li class="table-item">Loading tables...</li>
+                        </ul>
+                    </div>
+                    <div id="table-details">
+                        <h4>Table Details</h4>
+                        <p>Select a table from the list to view its structure and data.</p>
+                        <div id="table-info"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OLIS Synchronization Section -->
+        <div id="section-sync" class="admin-section">
+            <h2>🔄 OLIS Synchronization Management</h2>
+
+            <!-- Sync Status -->
+            <div class="sync-schedule">
+                <h3>Synchronization Schedule</h3>
+                <div id="sync-status">
+                    <p><strong>Last Sync:</strong> <span id="last-sync-time">Never</span></p>
+                    <p><strong>Next Scheduled:</strong> <span id="next-sync-time">Not scheduled</span></p>
+                    <p><strong>Status:</strong> <span id="sync-current-status">Idle</span></p>
+                </div>
+                
+                <div style="margin-top: var(--space-4);">
+                    <button class="btn btn-primary" onclick="runManualSync()">
+                        🔄 Run Manual Sync
+                    </button>
+                    <button class="btn btn-secondary" onclick="scheduleSyncTask()">
+                        ⏰ Schedule Sync
+                    </button>
+                    <button class="btn btn-danger" onclick="cancelSync()">
+                        ❌ Cancel Running Sync
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sync Configuration -->
+            <div class="section-content">
+                <h3>Sync Configuration</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+                    <div>
+                        <label for="sync-interval">Sync Interval (minutes):</label>
+                        <input type="number" id="sync-interval" value="60" min="5" max="1440">
+                    </div>
+                    <div>
+                        <label for="sync-session">Legislative Session:</label>
+                        <select id="sync-session">
+                            <option value="">Loading sessions...</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="saveSyncConfig()" style="margin-top: var(--space-3);">
+                    💾 Save Configuration
+                </button>
+            </div>
+
+            <!-- Sync Logs -->
+            <div class="section-content">
+                <h3>Synchronization Logs</h3>
+                <div id="sync-logs" class="log-viewer">
+                    Loading sync logs...
+                </div>
+            </div>
+        </div>
+
+        <!-- System Monitoring Section -->
+        <div id="section-monitoring" class="admin-section">
+            <h2>📊 System Monitoring</h2>
+
+            <!-- Performance Metrics -->
+            <div class="db-status-grid">
+                <div class="db-status-card healthy">
+                    <h3>Database Performance</h3>
+                    <div id="db-perf-metrics">
+                        <p><strong>Query Response:</strong> <span id="query-response-time">-- ms</span></p>
+                        <p><strong>Active Connections:</strong> <span id="active-connections">--</span></p>
+                        <p><strong>Cache Hit Rate:</strong> <span id="cache-hit-rate">--%</span></p>
+                    </div>
+                </div>
+
+                <div class="db-status-card healthy">
+                    <h3>API Performance</h3>
+                    <div id="api-perf-metrics">
+                        <p><strong>Requests/min:</strong> <span id="requests-per-minute">--</span></p>
+                        <p><strong>Error Rate:</strong> <span id="error-rate">--%</span></p>
+                        <p><strong>Uptime:</strong> <span id="system-uptime">--</span></p>
+                    </div>
+                </div>
+
+                <div class="db-status-card healthy">
+                    <h3>Storage Usage</h3>
+                    <div id="storage-metrics">
+                        <p><strong>Database Size:</strong> <span id="db-size">-- MB</span></p>
+                        <p><strong>Total Records:</strong> <span id="total-records">--</span></p>
+                        <p><strong>Growth Rate:</strong> <span id="growth-rate">-- /day</span></p>
+                    </div>
+                </div>
+
+                <div class="db-status-card healthy">
+                    <h3>Recent Activity</h3>
+                    <div id="activity-metrics">
+                        <p><strong>New Measures:</strong> <span id="new-measures">--</span></p>
+                        <p><strong>Analyses Run:</strong> <span id="analyses-run">--</span></p>
+                        <p><strong>User Sessions:</strong> <span id="user-sessions">--</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Logs -->
+            <div class="section-content">
+                <h3>System Logs</h3>
+                <div style="margin-bottom: var(--space-3);">
+                    <select id="log-level">
+                        <option value="">All Levels</option>
+                        <option value="error">Errors Only</option>
+                        <option value="warning">Warnings & Errors</option>
+                        <option value="info">Info & Above</option>
+                    </select>
+                    <button class="btn btn-secondary" onclick="refreshLogs()">🔄 Refresh</button>
+                </div>
+                <div id="system-logs" class="log-viewer">
+                    Loading system logs...
+                </div>
+            </div>
+        </div>
+
+        <!-- Maintenance Tools Section -->
+        <div id="section-maintenance" class="admin-section">
+            <h2>🛠️ Maintenance Tools</h2>
+
+            <div class="warning-banner">
+                <h3>⚠️ Dangerous Operations</h3>
+                <p>These tools can affect system performance and data integrity. Use only during maintenance windows.</p>
+            </div>
+
+            <!-- Database Maintenance -->
+            <div class="section-content">
+                <h3>Database Maintenance</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
+                    <button class="btn btn-secondary" onclick="vacuumDatabase()">
+                        🧹 Vacuum Database
+                    </button>
+                    <button class="btn btn-secondary" onclick="reindexTables()">
+                        📊 Reindex Tables
+                    </button>
+                    <button class="btn btn-warning" onclick="analyzeTables()">
+                        🔍 Analyze Statistics
+                    </button>
+                    <button class="btn btn-danger danger-action" onclick="clearCache()">
+                        🗑️ Clear Cache
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Management -->
+            <div class="section-content">
+                <h3>Data Management</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4);">
+                    <button class="btn btn-primary" onclick="exportData()">
+                        📤 Export Data
+                    </button>
+                    <button class="btn btn-warning" onclick="importData()">
+                        📥 Import Data
+                    </button>
+                    <button class="btn btn-secondary" onclick="backupDatabase()">
+                        💾 Create Backup
+                    </button>
+                    <button class="btn btn-danger danger-action" onclick="purgeOldData()">
+                        🗑️ Purge Old Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Maintenance Log -->
+            <div class="section-content">
+                <h3>Maintenance Log</h3>
+                <div id="maintenance-log" class="log-viewer">
+                    No maintenance operations performed yet.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple test to verify JavaScript is working
+        console.log('Admin page loaded, JavaScript is working');
+        
+        // Set a visible indicator that JS is running
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM ready, admin page initializing...');
+            
+            // Update the connection status to show JS is loaded
+            const connectionStatus = document.getElementById('db-connection-status');
+            if (connectionStatus) {
+                connectionStatus.innerHTML = '<span class="status-indicator status-warning"></span><span>JavaScript Loaded - Initializing...</span>';
+            }
+        });
+    </script>
+    <script src="/static/admin.js"></script>
+</body>
+</html>

@@ -7,6 +7,7 @@ from collections import defaultdict, Counter
 from datetime import datetime, timedelta
 import math
 import re
+from bill_status import classify_bill_status, get_status_display_info
 
 def analyze_testimony_position(testimony_record: Dict) -> str:
     """
@@ -281,6 +282,15 @@ async def analyze_hot_bills(client, session_key: str, limit: int = 10) -> Dict[s
             measure_prefix = first_testimony.get('MeasurePrefix', '')
             measure_number = first_testimony.get('MeasureNumber', '')
             
+            # Bill status classification
+            # For now, use unknown status as default to avoid OLIS API issues
+            # TODO: Implement proper measure data lookup with correct API parameters
+            bill_status = 'unknown'
+            status_display_info = get_status_display_info('unknown')
+            
+            # Temporarily disabled due to OLIS API format issues
+            # Will be re-enabled once proper API query format is determined
+            
             # Calculate comprehensive metrics
             total_testimonies = len(bill_testimonies_list)
             
@@ -296,10 +306,10 @@ async def analyze_hot_bills(client, session_key: str, limit: int = 10) -> Dict[s
             recent_testimonies = timeline_analysis['recent_30_days']
             
             # Top submitters analysis (by city/location)
-            top_submitters = analyze_top_submitters(bill_testimonies_list, top_n=10)
+            top_submitters = analyze_top_submitters(bill_testimonies_list, top_n=5)
             
             # Top "on behalf of" analysis
-            top_behalf_of = analyze_top_on_behalf_of(bill_testimonies_list, top_n=10)
+            top_behalf_of = analyze_top_on_behalf_of(bill_testimonies_list, top_n=5)
             
             # Position analysis (text-based inference)
             position_breakdown = {
@@ -365,6 +375,10 @@ async def analyze_hot_bills(client, session_key: str, limit: int = 10) -> Dict[s
                 'hotness_score': round(hotness_score, 1),
                 'heat_level': heat_level,
                 'heat_emoji': heat_emoji,
+                
+                # Bill status information
+                'bill_status': bill_status,
+                'status_display': status_display_info,
                 
                 # Enhanced breakdown data
                 'position_breakdown': position_breakdown,
